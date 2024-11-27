@@ -1,0 +1,236 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #CCC;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+
+//********************** Variables
+
+$main_color: #096600;
+
+//********************** Mixins
+
+@mixin backround-image($url) {
+    background-image: url($url);
+    background-position: center;
+    background-size: cover;
+}
+
+@mixin sr-only {
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    top: -1000px;
+    overflow: hidden
+}
+
+@mixin heading_2 {
+    color: $main_color;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+@mixin flex_center_element {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+//********************** Classes
+
+.container {
+    height: 100vh;
+    display: flex;
+}
+
+h1 {
+    @include sr-only;
+}
+
+.soccer-field {
+    @include backround-image('../imgs/stadium_background.webp');
+    width: 70%;
+    height: 100vh;
+    position: relative;
+
+    .selected-player {
+        color: #FFF;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        @include backround-image('../imgs/black-player-background.png');
+        font-size: 0.875vw;
+        height: 19.5em;
+        width: 12em;
+        border-radius: 7px;
+        padding: 2.15em 0;
+        position: absolute;
+        @include flex_center_element;
+    }
+    
+    .selected-player span {
+        font-size: 80px;
+    }
+
+    .selected-player.GK {
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%) scale(0.6);
+    }
+    .selected-player.LB {
+        bottom: 210px;
+        left: 3.75em;
+        transform: scale(0.55);
+    }
+    .selected-player.CB1 {
+        bottom: 150px;
+        left: 15.625em;
+        transform: scale(0.55);
+    }
+    .selected-player.CB2 {
+        bottom: 150px;
+        right: 15.625em;
+        transform: scale(0.55);
+    }
+    .selected-player.RB {
+        bottom: 210px;
+        right: 3.75em;
+        transform: scale(0.55);
+    }
+    .selected-player.LM {
+        bottom: 415px;
+        left: 125px;
+        transform: scale(0.5);
+    }
+    .selected-player.CM1 {
+        bottom: 360px;
+        left: 340px;
+        transform: scale(0.5);
+    }
+    .selected-player.CM2 {
+        bottom: 360px;
+        right: 340px;
+        transform: scale(0.5);
+    }
+    .selected-player.RM {
+        bottom: 415px;
+        right: 125px;
+        transform: scale(0.5);
+    }
+    .selected-player.ST1 {
+        top: -50px;
+        right: 305px;
+        transform: scale(0.4);
+    }
+    .selected-player.ST2 {
+        top: -50px;
+        left: 305px;
+        transform: scale(0.4);
+    }
+}
+
+.players-section {
+    width: 30%;
+    font-size: 1vw;
+    padding: 30px 15px;
+
+    h2 {
+        @include heading_2;
+    }
+    
+    .players {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.95em;
+        justify-items: center;
+        height: calc(100vh - 110px);
+        overflow: auto;
+        
+        .player-card {
+            color: #FFF;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            @include backround-image('../imgs/black-player-background.png');
+            height: 19.5em;
+            width: 12em;
+            border-radius: 7px;
+            padding: 2.15em 0;
+        }
+        .card-header {
+            height: 5.6em;
+            align-items: center;
+            gap: 15px;
+            display: flex;
+            justify-content: center;
+        }
+        .player-position {
+            color: #AAA;
+            transform: translateX(10px);
+            font-size: 1.15em;
+        }
+        img.player-image {
+            display: block;
+            margin: auto;
+            height: 6em;
+        }
+        .player-rating {
+            color: lime;
+            display: block;
+            transform: translateX(-10px);
+            font-size: 1.15em;
+        }
+        .player-name {
+            font-size: 1.2em;
+            text-align: center;
+        }
+        .player-info {
+            color: #AAA;
+            display: flex;
+            padding: 0 1.6em;
+            justify-content: space-between;
+        }
+        .player-ligue {
+            font-size: 1em;
+            text-align: center;
+        }
+        .player-assets {
+            display: flex;
+            justify-content: center;
+            gap: 1.5em;
+            align-items: center;
+        }
+        img.player-club {
+            height: 1.85em;
+        }
+        img.player-flag {
+            width: 1.85em;
+            border: 1px solid #555;
+        }
+    }
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: $main_color;
+    border-radius: 5px;
+}
