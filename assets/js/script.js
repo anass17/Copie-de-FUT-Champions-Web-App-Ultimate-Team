@@ -120,3 +120,16 @@ function hideRelevantPositions() {
         HTMLItem.classList.remove('blocked-position');
     });
 }
+let searchInput = document.getElementById('search');
+searchInput === null || searchInput === void 0 ? void 0 : searchInput.addEventListener('keyup', function () {
+    playersList.querySelectorAll('.player-card').forEach((item) => {
+        var _a;
+        const element = item;
+        if ((((_a = item.querySelector('.player-name')) === null || _a === void 0 ? void 0 : _a.textContent).toLocaleLowerCase().search(this.value.toLocaleLowerCase()) >= 0)) {
+            element.style.display = "flex";
+        }
+        else {
+            element.style.display = "none";
+        }
+    });
+});

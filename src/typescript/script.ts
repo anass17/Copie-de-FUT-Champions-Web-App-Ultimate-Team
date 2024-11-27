@@ -157,3 +157,18 @@ function hideRelevantPositions() {
         HTMLItem.classList.remove('blocked-position');
     })
 }
+
+let searchInput = document.getElementById('search');
+
+searchInput?.addEventListener('keyup', function (this: HTMLInputElement) {
+    playersList.querySelectorAll('.player-card').forEach((item) => {
+
+        const element = item as HTMLElement;
+
+        if (((item.querySelector('.player-name')?.textContent as string).toLocaleLowerCase().search(this.value.toLocaleLowerCase()) >= 0)) {
+            element.style.display = "flex";
+        } else {
+            element.style.display = "none";
+        }
+    });
+});
