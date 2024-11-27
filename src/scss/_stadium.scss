@@ -1,0 +1,85 @@
+
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.stadium {
+    @include backround-image('../imgs/stadium_background.webp');
+    width: 70%;
+    height: 100vh;
+    position: relative;
+
+    .selected-player {
+        color: #FFF;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        @include backround-image('../imgs/black-player-background.png');
+        font-size: 0.875vw;
+        height: 19.5em;
+        width: 12em;
+        border-radius: 7px;
+        padding: 2.15em 0;
+        position: absolute;
+        @include flex_center_element;
+    }
+    
+    .selected-player span {
+        font-size: 80px;
+    }
+
+    .selected-player.GK {
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%) scale(0.6);
+    }
+    .selected-player.LB {
+        bottom: 210px;
+        left: 3.75em;
+        transform: scale(0.55);
+    }
+    .selected-player.CB1 {
+        bottom: 150px;
+        left: 15.625em;
+        transform: scale(0.55);
+    }
+    .selected-player.CB2 {
+        bottom: 150px;
+        right: 15.625em;
+        transform: scale(0.55);
+    }
+    .selected-player.RB {
+        bottom: 210px;
+        right: 3.75em;
+        transform: scale(0.55);
+    }
+    .selected-player.LM {
+        bottom: 415px;
+        left: 125px;
+        transform: scale(0.5);
+    }
+    .selected-player.CM1 {
+        bottom: 360px;
+        left: 340px;
+        transform: scale(0.5);
+    }
+    .selected-player.CM2 {
+        bottom: 360px;
+        right: 340px;
+        transform: scale(0.5);
+    }
+    .selected-player.RM {
+        bottom: 415px;
+        right: 125px;
+        transform: scale(0.5);
+    }
+    .selected-player.ST1 {
+        top: -50px;
+        right: 305px;
+        transform: scale(0.4);
+    }
+    .selected-player.ST2 {
+        top: -50px;
+        left: 305px;
+        transform: scale(0.4);
+    }
+}

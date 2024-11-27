@@ -30,89 +30,15 @@ h1 {
   overflow: hidden;
 }
 
-.soccer-field {
-  background-image: url("../imgs/stadium_background.webp");
-  background-position: center;
-  background-size: cover;
-  width: 70%;
-  height: 100vh;
-  position: relative;
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  background-color: transparent;
 }
-.soccer-field .selected-player {
-  color: #FFF;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-image: url("../imgs/black-player-background.png");
-  background-position: center;
-  background-size: cover;
-  font-size: 0.875vw;
-  height: 19.5em;
-  width: 12em;
-  border-radius: 7px;
-  padding: 2.15em 0;
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.soccer-field .selected-player span {
-  font-size: 80px;
-}
-.soccer-field .selected-player.GK {
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%) scale(0.6);
-}
-.soccer-field .selected-player.LB {
-  bottom: 210px;
-  left: 3.75em;
-  transform: scale(0.55);
-}
-.soccer-field .selected-player.CB1 {
-  bottom: 150px;
-  left: 15.625em;
-  transform: scale(0.55);
-}
-.soccer-field .selected-player.CB2 {
-  bottom: 150px;
-  right: 15.625em;
-  transform: scale(0.55);
-}
-.soccer-field .selected-player.RB {
-  bottom: 210px;
-  right: 3.75em;
-  transform: scale(0.55);
-}
-.soccer-field .selected-player.LM {
-  bottom: 415px;
-  left: 125px;
-  transform: scale(0.5);
-}
-.soccer-field .selected-player.CM1 {
-  bottom: 360px;
-  left: 340px;
-  transform: scale(0.5);
-}
-.soccer-field .selected-player.CM2 {
-  bottom: 360px;
-  right: 340px;
-  transform: scale(0.5);
-}
-.soccer-field .selected-player.RM {
-  bottom: 415px;
-  right: 125px;
-  transform: scale(0.5);
-}
-.soccer-field .selected-player.ST1 {
-  top: -50px;
-  right: 305px;
-  transform: scale(0.4);
-}
-.soccer-field .selected-player.ST2 {
-  top: -50px;
-  left: 305px;
-  transform: scale(0.4);
+
+::-webkit-scrollbar-thumb {
+  background-color: #096600;
+  border-radius: 5px;
 }
 
 .players-section {
@@ -197,15 +123,89 @@ h1 {
   border: 1px solid #555;
 }
 
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-  background-color: transparent;
+.stadium {
+  background-image: url("../imgs/stadium_background.webp");
+  background-position: center;
+  background-size: cover;
+  width: 70%;
+  height: 100vh;
+  position: relative;
 }
-
-::-webkit-scrollbar-thumb {
-  background-color: #096600;
-  border-radius: 5px;
+.stadium .selected-player {
+  color: #FFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-image: url("../imgs/black-player-background.png");
+  background-position: center;
+  background-size: cover;
+  font-size: 0.875vw;
+  height: 19.5em;
+  width: 12em;
+  border-radius: 7px;
+  padding: 2.15em 0;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.stadium .selected-player span {
+  font-size: 80px;
+}
+.stadium .selected-player.GK {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) scale(0.6);
+}
+.stadium .selected-player.LB {
+  bottom: 210px;
+  left: 3.75em;
+  transform: scale(0.55);
+}
+.stadium .selected-player.CB1 {
+  bottom: 150px;
+  left: 15.625em;
+  transform: scale(0.55);
+}
+.stadium .selected-player.CB2 {
+  bottom: 150px;
+  right: 15.625em;
+  transform: scale(0.55);
+}
+.stadium .selected-player.RB {
+  bottom: 210px;
+  right: 3.75em;
+  transform: scale(0.55);
+}
+.stadium .selected-player.LM {
+  bottom: 415px;
+  left: 125px;
+  transform: scale(0.5);
+}
+.stadium .selected-player.CM1 {
+  bottom: 360px;
+  left: 340px;
+  transform: scale(0.5);
+}
+.stadium .selected-player.CM2 {
+  bottom: 360px;
+  right: 340px;
+  transform: scale(0.5);
+}
+.stadium .selected-player.RM {
+  bottom: 415px;
+  right: 125px;
+  transform: scale(0.5);
+}
+.stadium .selected-player.ST1 {
+  top: -50px;
+  right: 305px;
+  transform: scale(0.4);
+}
+.stadium .selected-player.ST2 {
+  top: -50px;
+  left: 305px;
+  transform: scale(0.4);
 }
 
 /*# sourceMappingURL=style.css.map */

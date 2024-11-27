@@ -1,0 +1,28 @@
+@use 'variables' as *;
+
+@mixin backround-image($url) {
+    background-image: url($url);
+    background-position: center;
+    background-size: cover;
+}
+
+@mixin sr-only {
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    top: -1000px;
+    overflow: hidden
+}
+
+@mixin heading_2 {
+    color: $main_color;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+@mixin flex_center_element {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
