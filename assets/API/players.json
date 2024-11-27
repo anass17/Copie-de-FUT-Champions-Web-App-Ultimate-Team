@@ -157,17 +157,17 @@
       "player_number": 1
     },
     {
-      "id": 13,
-      "name": "Joshua Kimmich",
-      "position": ["CDM", "CM"],
-      "nationality": "Germany",
-      "league": "Bundesliga",
-      "club": "Bayern Munich",
-      "overall_rating": 88,
-      "nation_icon": "/assets/API/imgs/flags/germany.png",
-      "club_logo": "/assets/API/imgs/club/bayern_munich.png",
-      "age": 29,
-      "player_number": 6
+        "id": 13,
+        "name": "Alisson Becker",
+        "position": ["GK"],
+        "nationality": "Brazil",
+        "league": "Premier League",
+        "club": "Liverpool",
+        "overall_rating": 89,
+        "nation_icon": "/assets/API/imgs/flags/brazil.png",
+        "club_logo": "/assets/API/imgs/club/liverpool.png",
+        "age": 31,
+        "player_number": 1
     },
     {
       "id": 14,
@@ -428,6 +428,45 @@
       "club_logo": "/assets/API/imgs/club/sevilla.png",
       "age": 32,
       "player_number": 13
-    }
+    },
+    {
+        "id": 34,
+        "name": "Jan Oblak",
+        "position": ["GK"],
+        "nationality": "Slovenia",
+        "league": "La Liga",
+        "club": "Atletico Madrid",
+        "overall_rating": 91,
+        "nation_icon": "/assets/API/imgs/flags/slovenia.png",
+        "club_logo": "/assets/API/imgs/club/atletico_madrid.png",
+        "age": 30,
+        "player_number": 13
+    },
+    {
+        "id": 35,
+        "name": "Alphonso Davies",
+        "position": ["LB"],
+        "nationality": "Canada",
+        "league": "Bundesliga",
+        "club": "Bayern Munich",
+        "overall_rating": 85,
+        "nation_icon": "/assets/API/imgs/flags/canada.png",
+        "club_logo": "/assets/API/imgs/club/bayern_munich.png",
+        "age": 23,
+        "player_number": 19
+    },
+    {
+        "id": 6,
+        "name": "Jordi Alba",
+        "position": ["LB"],
+        "nationality": "Spain",
+        "league": "La Liga",
+        "club": "Barcelona",
+        "overall_rating": 85,
+        "nation_icon": "/assets/API/imgs/flags/spain.png",
+        "club_logo": "/assets/API/imgs/club/barcelona.png",
+        "age": 35,
+        "player_number": 18
+      }
   ]
 }
