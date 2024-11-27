@@ -8,78 +8,113 @@
     height: 100vh;
     position: relative;
 
+    .selected-player-container {
+        position: absolute;
+        font-size: 0.875vw;
+    }
+
     .selected-player {
         color: #FFF;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        @include backround-image('../imgs/black-player-background.png');
-        font-size: 0.875vw;
         height: 19.5em;
         width: 12em;
         border-radius: 7px;
         padding: 2.15em 0;
-        position: absolute;
+        font-size: 1em;
+        
+        opacity: 0.5;
+        filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, .5));
+        transition: opacity .3s, filter .3s, transform .3s;
+
+        @include backround-image('../imgs/black-player-background.png');
         @include flex_center_element;
-    }
-    
-    .selected-player span {
-        font-size: 80px;
+
+        &:not(.blocked-position):hover {
+            opacity: 1;
+        }
+
+        &.active {
+            opacity: 1;
+            filter: drop-shadow(0 0 15px yellow);
+        }
+
+        &.possible-position {
+            opacity: .8;
+            transform: scale(2);
+            animation: bounce 2s linear backwards infinite;
+            filter: drop-shadow(0px 0px 15px lime);
+        }
+
+        &.blocked-position {
+            cursor: not-allowed;
+        }
+        
+        .role {
+            position: absolute;
+            bottom: 1.4em;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.2em;
+            color: #a0a0a0;
+        }
+        .plus {
+            font-size: 5em;
+            transform: translateY(-10px);
+        }
     }
 
-    .selected-player.GK {
+    .selected-player-container.GK {
         bottom: 0;
         left: 50%;
         transform: translateX(-50%) scale(0.6);
     }
-    .selected-player.LB {
+    .selected-player-container.LB {
         bottom: 210px;
         left: 3.75em;
         transform: scale(0.55);
     }
-    .selected-player.CB1 {
+    .selected-player-container.CB1 {
         bottom: 150px;
         left: 15.625em;
         transform: scale(0.55);
     }
-    .selected-player.CB2 {
+    .selected-player-container.CB2 {
         bottom: 150px;
         right: 15.625em;
         transform: scale(0.55);
     }
-    .selected-player.RB {
+    .selected-player-container.RB {
         bottom: 210px;
         right: 3.75em;
         transform: scale(0.55);
     }
-    .selected-player.LM {
+    .selected-player-container.LM {
         bottom: 415px;
-        left: 125px;
+        left: 9.8125em;
         transform: scale(0.5);
     }
-    .selected-player.CM1 {
+    .selected-player-container.CM1 {
         bottom: 360px;
-        left: 340px;
+        left: 24.25em;
         transform: scale(0.5);
     }
-    .selected-player.CM2 {
+    .selected-player-container.CM2 {
         bottom: 360px;
-        right: 340px;
+        right: 24.25em;
         transform: scale(0.5);
     }
-    .selected-player.RM {
+    .selected-player-container.RM {
         bottom: 415px;
-        right: 125px;
+        right: 9.8125em;
         transform: scale(0.5);
     }
-    .selected-player.ST1 {
-        top: -50px;
-        right: 305px;
+    .selected-player-container.ST1 {
+        bottom: 515px;
+        right: 21em;
         transform: scale(0.4);
     }
-    .selected-player.ST2 {
-        top: -50px;
-        left: 305px;
+    .selected-player-container.ST2 {
+        bottom: 515px;
+        left: 21em;
         transform: scale(0.4);
     }
 }
