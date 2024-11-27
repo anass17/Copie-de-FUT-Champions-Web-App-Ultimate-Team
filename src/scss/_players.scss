@@ -2,6 +2,81 @@
 @use 'variables' as *;
 @use 'mixins' as *;
 
+
+.player-card {
+    color: #FFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between !important;
+    @include backround-image('../imgs/black-player-background.png');
+    height: 19.5em;
+    width: 12em;
+    border-radius: 7px;
+    padding: 2.15em 0;
+    opacity: 1 !important;
+    transition: filter .3s;
+    cursor: pointer;
+    filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, .5));
+
+    &.selected {
+        filter: drop-shadow(0px 0px 5px orangered);
+    }
+
+    .card-header {
+        height: 5.6em;
+        align-items: center;
+        gap: 15px;
+        display: flex;
+        justify-content: center;
+    }
+    .player-position {
+        color: #AAA;
+        transform: translateX(10px);
+        font-size: 1.15em;
+    }
+    img.player-image {
+        display: block;
+        margin: auto;
+        height: 6em;
+    }
+    .player-rating {
+        color: lime;
+        display: block;
+        transform: translateX(-10px);
+        font-size: 1.15em;
+    }
+    .player-name {
+        font-size: 1.2em;
+        text-align: center;
+        padding: 0 5px;
+    }
+    .player-info {
+        font-size: 1em;
+        color: #AAA;
+        display: flex;
+        gap: 1.5em;
+        padding: 0 1.6em;
+        justify-content: space-between;
+    }
+    .player-ligue {
+        font-size: 1em;
+        text-align: center;
+    }
+    .player-assets {
+        display: flex;
+        justify-content: center;
+        gap: 1.5em;
+        align-items: center;
+    }
+    img.player-club {
+        height: 1.85em;
+    }
+    img.player-flag {
+        width: 1.85em;
+        border: 1px solid #555;
+    }
+}
+
 .players-section {
     width: 30%;
     font-size: 1vw;
@@ -10,75 +85,31 @@
     h2 {
         @include heading_2;
     }
+
+    .search-filter-form {
+        margin: 20px 0;
+        padding: 0 15px;
+        label {
+            display: block;
+            margin-bottom: 7px;
+        }
+        input {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 7px;
+            border: 1px solid #888;
+            outline: none;
+        }
+    }
     
     .players {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 0.95em;
         justify-items: center;
-        height: calc(100vh - 110px);
+        height: calc(100vh - 160px);
+        padding-bottom: 20px;
+        padding-top: 5px;
         overflow: auto;
-        
-        .player-card {
-            color: #FFF;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            @include backround-image('../imgs/black-player-background.png');
-            height: 19.5em;
-            width: 12em;
-            border-radius: 7px;
-            padding: 2.15em 0;
-        }
-        .card-header {
-            height: 5.6em;
-            align-items: center;
-            gap: 15px;
-            display: flex;
-            justify-content: center;
-        }
-        .player-position {
-            color: #AAA;
-            transform: translateX(10px);
-            font-size: 1.15em;
-        }
-        img.player-image {
-            display: block;
-            margin: auto;
-            height: 6em;
-        }
-        .player-rating {
-            color: lime;
-            display: block;
-            transform: translateX(-10px);
-            font-size: 1.15em;
-        }
-        .player-name {
-            font-size: 1.2em;
-            text-align: center;
-        }
-        .player-info {
-            color: #AAA;
-            display: flex;
-            padding: 0 1.6em;
-            justify-content: space-between;
-        }
-        .player-ligue {
-            font-size: 1em;
-            text-align: center;
-        }
-        .player-assets {
-            display: flex;
-            justify-content: center;
-            gap: 1.5em;
-            align-items: center;
-        }
-        img.player-club {
-            height: 1.85em;
-        }
-        img.player-flag {
-            width: 1.85em;
-            border: 1px solid #555;
-        }
     }
 }

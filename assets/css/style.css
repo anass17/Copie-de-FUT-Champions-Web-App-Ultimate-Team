@@ -7,6 +7,8 @@
 body {
   background-color: #CCC;
   font-family: Arial, Helvetica, sans-serif;
+  height: 100vh;
+  overflow: hidden;
 }
 
 button {
@@ -41,6 +43,80 @@ h1 {
   border-radius: 5px;
 }
 
+.player-card {
+  color: #FFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between !important;
+  background-image: url("../imgs/black-player-background.png");
+  background-position: center;
+  background-size: cover;
+  height: 19.5em;
+  width: 12em;
+  border-radius: 7px;
+  padding: 2.15em 0;
+  opacity: 1 !important;
+  transition: filter 0.3s;
+  cursor: pointer;
+  filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5));
+}
+.player-card.selected {
+  filter: drop-shadow(0px 0px 5px orangered);
+}
+.player-card .card-header {
+  height: 5.6em;
+  align-items: center;
+  gap: 15px;
+  display: flex;
+  justify-content: center;
+}
+.player-card .player-position {
+  color: #AAA;
+  transform: translateX(10px);
+  font-size: 1.15em;
+}
+.player-card img.player-image {
+  display: block;
+  margin: auto;
+  height: 6em;
+}
+.player-card .player-rating {
+  color: lime;
+  display: block;
+  transform: translateX(-10px);
+  font-size: 1.15em;
+}
+.player-card .player-name {
+  font-size: 1.2em;
+  text-align: center;
+  padding: 0 5px;
+}
+.player-card .player-info {
+  font-size: 1em;
+  color: #AAA;
+  display: flex;
+  gap: 1.5em;
+  padding: 0 1.6em;
+  justify-content: space-between;
+}
+.player-card .player-ligue {
+  font-size: 1em;
+  text-align: center;
+}
+.player-card .player-assets {
+  display: flex;
+  justify-content: center;
+  gap: 1.5em;
+  align-items: center;
+}
+.player-card img.player-club {
+  height: 1.85em;
+}
+.player-card img.player-flag {
+  width: 1.85em;
+  border: 1px solid #555;
+}
+
 .players-section {
   width: 30%;
   font-size: 1vw;
@@ -51,76 +127,30 @@ h1 {
   margin-bottom: 20px;
   text-align: center;
 }
+.players-section .search-filter-form {
+  margin: 20px 0;
+  padding: 0 15px;
+}
+.players-section .search-filter-form label {
+  display: block;
+  margin-bottom: 7px;
+}
+.players-section .search-filter-form input {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 7px;
+  border: 1px solid #888;
+  outline: none;
+}
 .players-section .players {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.95em;
   justify-items: center;
-  height: calc(100vh - 110px);
+  height: calc(100vh - 160px);
+  padding-bottom: 20px;
+  padding-top: 5px;
   overflow: auto;
-}
-.players-section .players .player-card {
-  color: #FFF;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-image: url("../imgs/black-player-background.png");
-  background-position: center;
-  background-size: cover;
-  height: 19.5em;
-  width: 12em;
-  border-radius: 7px;
-  padding: 2.15em 0;
-}
-.players-section .players .card-header {
-  height: 5.6em;
-  align-items: center;
-  gap: 15px;
-  display: flex;
-  justify-content: center;
-}
-.players-section .players .player-position {
-  color: #AAA;
-  transform: translateX(10px);
-  font-size: 1.15em;
-}
-.players-section .players img.player-image {
-  display: block;
-  margin: auto;
-  height: 6em;
-}
-.players-section .players .player-rating {
-  color: lime;
-  display: block;
-  transform: translateX(-10px);
-  font-size: 1.15em;
-}
-.players-section .players .player-name {
-  font-size: 1.2em;
-  text-align: center;
-}
-.players-section .players .player-info {
-  color: #AAA;
-  display: flex;
-  padding: 0 1.6em;
-  justify-content: space-between;
-}
-.players-section .players .player-ligue {
-  font-size: 1em;
-  text-align: center;
-}
-.players-section .players .player-assets {
-  display: flex;
-  justify-content: center;
-  gap: 1.5em;
-  align-items: center;
-}
-.players-section .players img.player-club {
-  height: 1.85em;
-}
-.players-section .players img.player-flag {
-  width: 1.85em;
-  border: 1px solid #555;
 }
 
 .stadium {
@@ -131,81 +161,127 @@ h1 {
   height: 100vh;
   position: relative;
 }
+.stadium .selected-player-container {
+  position: absolute;
+  font-size: 0.875vw;
+}
 .stadium .selected-player {
   color: #FFF;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-image: url("../imgs/black-player-background.png");
-  background-position: center;
-  background-size: cover;
-  font-size: 0.875vw;
   height: 19.5em;
   width: 12em;
   border-radius: 7px;
   padding: 2.15em 0;
-  position: absolute;
+  font-size: 1em;
+  opacity: 0.5;
+  filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5));
+  transition: opacity 0.3s, filter 0.3s, transform 0.3s;
+  background-image: url("../imgs/black-player-background.png");
+  background-position: center;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.stadium .selected-player span {
-  font-size: 80px;
+.stadium .selected-player:not(.blocked-position):hover {
+  opacity: 1;
 }
-.stadium .selected-player.GK {
+.stadium .selected-player.active {
+  opacity: 1;
+  filter: drop-shadow(0 0 15px yellow);
+}
+.stadium .selected-player.possible-position {
+  opacity: 0.8;
+  transform: scale(2);
+  animation: bounce 2s linear backwards infinite;
+  filter: drop-shadow(0px 0px 15px lime);
+}
+.stadium .selected-player.blocked-position {
+  cursor: not-allowed;
+}
+.stadium .selected-player .role {
+  position: absolute;
+  bottom: 1.4em;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.2em;
+  color: #a0a0a0;
+}
+.stadium .selected-player .plus {
+  font-size: 5em;
+  transform: translateY(-10px);
+}
+.stadium .selected-player-container.GK {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%) scale(0.6);
 }
-.stadium .selected-player.LB {
+.stadium .selected-player-container.LB {
   bottom: 210px;
   left: 3.75em;
   transform: scale(0.55);
 }
-.stadium .selected-player.CB1 {
+.stadium .selected-player-container.CB1 {
   bottom: 150px;
   left: 15.625em;
   transform: scale(0.55);
 }
-.stadium .selected-player.CB2 {
+.stadium .selected-player-container.CB2 {
   bottom: 150px;
   right: 15.625em;
   transform: scale(0.55);
 }
-.stadium .selected-player.RB {
+.stadium .selected-player-container.RB {
   bottom: 210px;
   right: 3.75em;
   transform: scale(0.55);
 }
-.stadium .selected-player.LM {
+.stadium .selected-player-container.LM {
   bottom: 415px;
-  left: 125px;
+  left: 9.8125em;
   transform: scale(0.5);
 }
-.stadium .selected-player.CM1 {
+.stadium .selected-player-container.CM1 {
   bottom: 360px;
-  left: 340px;
+  left: 24.25em;
   transform: scale(0.5);
 }
-.stadium .selected-player.CM2 {
+.stadium .selected-player-container.CM2 {
   bottom: 360px;
-  right: 340px;
+  right: 24.25em;
   transform: scale(0.5);
 }
-.stadium .selected-player.RM {
+.stadium .selected-player-container.RM {
   bottom: 415px;
-  right: 125px;
+  right: 9.8125em;
   transform: scale(0.5);
 }
-.stadium .selected-player.ST1 {
-  top: -50px;
-  right: 305px;
+.stadium .selected-player-container.ST1 {
+  bottom: 515px;
+  right: 21em;
   transform: scale(0.4);
 }
-.stadium .selected-player.ST2 {
-  top: -50px;
-  left: 305px;
+.stadium .selected-player-container.ST2 {
+  bottom: 515px;
+  left: 21em;
   transform: scale(0.4);
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(1.2) translateY(0);
+  }
+  25% {
+    transform: scale(1.2) translateY(1em);
+  }
+  50% {
+    transform: scale(1.2) translateY(0);
+  }
+  75% {
+    transform: scale(1.2) translateY(-1em);
+  }
+  100% {
+    transform: scale(1.2) translateY(0);
+  }
 }
 
 /*# sourceMappingURL=style.css.map */
