@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Lionel Messi",
-      "position": "RW",
+      "position": ["RW", "RM"],
       "nationality": "Argentina",
       "league": "Ligue 1",
       "club": "Paris Saint-Germain",
@@ -16,7 +16,7 @@
     {
       "id": 2,
       "name": "Cristiano Ronaldo",
-      "position": "ST",
+      "position": ["ST"],
       "nationality": "Portugal",
       "league": "Premier League",
       "club": "Manchester United",
@@ -29,7 +29,7 @@
     {
       "id": 3,
       "name": "Kylian Mbappé",
-      "position": "ST",
+      "position": ["ST"],
       "nationality": "France",
       "league": "Ligue 1",
       "club": "Paris Saint-Germain",
@@ -42,7 +42,7 @@
     {
       "id": 4,
       "name": "Neymar Jr",
-      "position": "LW",
+      "position": ["LW", "LM"],
       "nationality": "Brazil",
       "league": "Ligue 1",
       "club": "Paris Saint-Germain",
@@ -55,7 +55,7 @@
     {
       "id": 5,
       "name": "Virgil van Dijk",
-      "position": "CB",
+      "position": ["CB"],
       "nationality": "Netherlands",
       "league": "Premier League",
       "club": "Liverpool",
@@ -68,7 +68,7 @@
     {
       "id": 6,
       "name": "Mohamed Salah",
-      "position": "RW",
+      "position": ["RW", "RM"],
       "nationality": "Egypt",
       "league": "Premier League",
       "club": "Liverpool",
@@ -81,7 +81,7 @@
     {
       "id": 7,
       "name": "Kevin De Bruyne",
-      "position": "CM",
+      "position": ["CM"],
       "nationality": "Belgium",
       "league": "Premier League",
       "club": "Manchester City",
@@ -94,7 +94,7 @@
     {
       "id": 8,
       "name": "Robert Lewandowski",
-      "position": "ST",
+      "position": ["ST"],
       "nationality": "Poland",
       "league": "La Liga",
       "club": "FC Barcelona",
@@ -107,7 +107,7 @@
     {
       "id": 9,
       "name": "Erling Haaland",
-      "position": "ST",
+      "position": ["ST"],
       "nationality": "Norway",
       "league": "Premier League",
       "club": "Manchester City",
@@ -120,7 +120,7 @@
     {
       "id": 10,
       "name": "Sadio Mané",
-      "position": "LW",
+      "position": ["LW", "LM"],
       "nationality": "Senegal",
       "league": "Saudi Pro League",
       "club": "Al Nassr",
@@ -133,7 +133,7 @@
     {
       "id": 11,
       "name": "Luka Modrić",
-      "position": "CM",
+      "position": ["CM"],
       "nationality": "Croatia",
       "league": "La Liga",
       "club": "Real Madrid",
@@ -146,7 +146,7 @@
     {
       "id": 12,
       "name": "Thibaut Courtois",
-      "position": "GK",
+      "position": ["GK"],
       "nationality": "Belgium",
       "league": "La Liga",
       "club": "Real Madrid",
@@ -159,7 +159,7 @@
     {
       "id": 13,
       "name": "Joshua Kimmich",
-      "position": "CDM",
+      "position": ["CDM", "CM"],
       "nationality": "Germany",
       "league": "Bundesliga",
       "club": "Bayern Munich",
@@ -172,7 +172,7 @@
     {
       "id": 14,
       "name": "Harry Kane",
-      "position": "ST",
+      "position": ["ST"],
       "nationality": "England",
       "league": "Bundesliga",
       "club": "Bayern Munich",
@@ -185,7 +185,7 @@
     {
       "id": 15,
       "name": "Paulo Dybala",
-      "position": "CF",
+      "position": ["CF", "ST"],
       "nationality": "Argentina",
       "league": "Serie A",
       "club": "AS Roma",
@@ -198,7 +198,7 @@
     {
       "id": 16,
       "name": "Joshua Kimmich",
-      "position": "CDM",
+      "position": ["CDM", "CM"],
       "nationality": "Germany",
       "league": "Bundesliga",
       "club": "Bayern Munich",
@@ -211,7 +211,7 @@
     {
       "id": 17,
       "name": "Frenkie de Jong",
-      "position": "CM",
+      "position": ["CM"],
       "nationality": "Netherlands",
       "league": "La Liga",
       "club": "FC Barcelona",
@@ -224,7 +224,7 @@
     {
       "id": 18,
       "name": "Vinícius Júnior",
-      "position": "LW",
+      "position": ["LW", "LM"],
       "nationality": "Brazil",
       "league": "La Liga",
       "club": "Real Madrid",
@@ -237,7 +237,7 @@
     {
       "id": 19,
       "name": "Jack Grealish",
-      "position": "LW",
+      "position": ["LW", "LM"],
       "nationality": "England",
       "league": "Premier League",
       "club": "Manchester City",
@@ -250,7 +250,7 @@
     {
       "id": 20,
       "name": "Raheem Sterling",
-      "position": "RW",
+      "position": ["RW", "RM"],
       "nationality": "England",
       "league": "Premier League",
       "club": "Chelsea",
@@ -263,7 +263,7 @@
     {
       "id": 21,
       "name": "Jude Bellingham",
-      "position": "CM",
+      "position": ["CM"],
       "nationality": "England",
       "league": "La Liga",
       "club": "Real Madrid",
@@ -276,7 +276,7 @@
     {
       "id": 22,
       "name": "Mason Mount",
-      "position": "CM",
+      "position": ["CM"],
       "nationality": "England",
       "league": "Premier League",
       "club": "Manchester United",
@@ -289,7 +289,7 @@
     {
       "id": 23,
       "name": "Theo Hernández",
-      "position": "LB",
+      "position": ["LB"],
       "nationality": "France",
       "league": "Serie A",
       "club": "AC Milan",
@@ -302,7 +302,7 @@
     {
       "id": 24,
       "name": "Kieran Trippier",
-      "position": "RB",
+      "position": ["RB"],
       "nationality": "England",
       "league": "Premier League",
       "club": "Newcastle United",
@@ -315,7 +315,7 @@
     {
       "id": 25,
       "name": "Christian Pulisic",
-      "position": "RW",
+      "position": ["RW", "RM"],
       "nationality": "United States",
       "league": "Serie A",
       "club": "AC Milan",
@@ -328,7 +328,7 @@
     {
       "id": 26,
       "name": "Sergio Ramos",
-      "position": "CB",
+      "position": ["CB"],
       "nationality": "Spain",
       "league": "Saudi Pro League",
       "club": "Al Nassr",
@@ -341,7 +341,7 @@
     {
       "id": 27,
       "name": "Karim Benzema",
-      "position": "ST",
+      "position": ["ST"],
       "nationality": "France",
       "league": "Saudi Pro League",
       "club": "Al Ittihad",
@@ -354,7 +354,7 @@
     {
       "id": 28,
       "name": "Romelu Lukaku",
-      "position": "ST",
+      "position": ["ST"],
       "nationality": "Belgium",
       "league": "Serie A",
       "club": "AS Roma",
@@ -367,7 +367,7 @@
     {
       "id": 29,
       "name": "Frenkie de Jong",
-      "position": "CM",
+      "position": ["CM"],
       "nationality": "Netherlands",
       "league": "La Liga",
       "club": "FC Barcelona",
@@ -380,7 +380,7 @@
     {
       "id": 30,
       "name": "N'Golo Kanté",
-      "position": "CDM",
+      "position": ["CDM", "CM"],
       "nationality": "France",
       "league": "Saudi Pro League",
       "club": "Al-Ittihad",
@@ -393,7 +393,7 @@
     {
       "id": 31,
       "name": "David Alaba",
-      "position": "CB",
+      "position": ["CB"],
       "nationality": "Austria",
       "league": "La Liga",
       "club": "Real Madrid",
@@ -406,7 +406,7 @@
     {
       "id": 32,
       "name": "Achraf Hakimi",
-      "position": "RB",
+      "position": ["RB"],
       "nationality": "Morocco",
       "league": "Ligue 1",
       "club": "Paris Saint-Germain",
@@ -419,7 +419,7 @@
     {
       "id": 33,
       "name": "Yassine Bounou",
-      "position": "GK",
+      "position": ["GK"],
       "nationality": "Morocco",
       "league": "La Liga",
       "club": "Sevilla FC",

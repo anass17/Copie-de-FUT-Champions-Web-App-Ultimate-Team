@@ -8,10 +8,10 @@ fetch(url)
     for (let player of data.players) {
         let div = document.createElement('div');
         div.className = "player-card";
-        div.dataset.position = player.position;
+        div.dataset.position = player.position.join('-');
         div.addEventListener('click', addPlayerToStadium);
         div.innerHTML = `<div class="card-header">
-                <h3 class="player-position">${player.position}</h3>
+                <h3 class="player-position">${player.position[0]}</h3>
                 <div>
                     <img class="player-image" src="assets/API/imgs/players/${player.name}.png" alt="">
                 </div>
@@ -63,8 +63,9 @@ function showRelevantPlayers() {
     currentPlayerPlaceholder = this;
     this.classList.add('active');
     playersList.querySelectorAll('.player-card').forEach((item) => {
+        var _a;
         const element = item;
-        if (item.getAttribute('data-position') == position) {
+        if (((_a = item.getAttribute('data-position')) === null || _a === void 0 ? void 0 : _a.search(position)) >= 0) {
             element.style.display = "";
         }
         else {
@@ -95,14 +96,14 @@ function addPlayerToStadium() {
 function showAllPlayers() {
     playersList.querySelectorAll('.player-card').forEach((item) => {
         const element = item;
-        element.style.display = "flex";
+        element.style.display = "";
     });
 }
 function showRelevantPositions() {
     let position = currentPlayerCard === null || currentPlayerCard === void 0 ? void 0 : currentPlayerCard.getAttribute('data-position');
     selectedPlayersPlaceholders.forEach((item) => {
         let HTMLItem = item;
-        if (position == item.getAttribute('data-position')) {
+        if (position.search(item.getAttribute('data-position')) >= 0) {
             HTMLItem.classList.add('possible-position');
             HTMLItem.classList.remove('blocked-position');
         }

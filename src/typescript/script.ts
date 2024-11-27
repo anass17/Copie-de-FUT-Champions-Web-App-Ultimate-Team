@@ -4,7 +4,7 @@ let playersList = document.getElementById('players-list') as HTMLDivElement;
 interface PlayersDate {
     id: number,
     name: string,
-    position: string,
+    position: string[],
     nationality: string,
     league: string,
     club: string,
@@ -29,12 +29,12 @@ fetch(url)
 
 
             div.className = "player-card";
-            div.dataset.position = player.position;
+            div.dataset.position = player.position.join('-');
             div.addEventListener('click', addPlayerToStadium);
 
 
             div.innerHTML = `<div class="card-header">
-                <h3 class="player-position">${player.position}</h3>
+                <h3 class="player-position">${player.position[0]}</h3>
                 <div>
                     <img class="player-image" src="assets/API/imgs/players/${player.name}.png" alt="">
                 </div>
@@ -67,7 +67,7 @@ selectedPlayersPlaceholders.forEach((item) => {
 
 
 function showRelevantPlayers(this: HTMLElement) {
-    let position = this.dataset.position;
+    let position = this.dataset.position as string;
 
     if (this.classList.contains('active')) {
         currentPlayerPlaceholder?.classList.remove('active');
@@ -99,7 +99,7 @@ function showRelevantPlayers(this: HTMLElement) {
 
         const element = item as HTMLElement;
 
-        if (item.getAttribute('data-position') == position) {
+        if ((item.getAttribute('data-position')?.search(position) as number) >= 0) {
             element.style.display = "";
         } else {
             element.style.display = "none";
@@ -132,15 +132,15 @@ function showAllPlayers() {
 
         const element = item as HTMLElement;
 
-        element.style.display = "flex";
+        element.style.display = "";
     });
 }
 
 function showRelevantPositions() {
-    let position = currentPlayerCard?.getAttribute('data-position');
+    let position = currentPlayerCard?.getAttribute('data-position') as string;
     selectedPlayersPlaceholders.forEach((item) => {
         let HTMLItem = item as HTMLElement;
-        if (position == item.getAttribute('data-position')) {
+        if (position.search((item.getAttribute('data-position') as string)) >= 0) {
             HTMLItem.classList.add('possible-position');
             HTMLItem.classList.remove('blocked-position')
         } else {
