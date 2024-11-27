@@ -1,34 +1,15 @@
-const url : string = '/assets/API/players.json';
-let playersList = document.getElementById('players-list') as HTMLDivElement;
-
-interface PlayersDate {
-    id: number,
-    name: string,
-    position: string,
-    nationality: string,
-    league: string,
-    club: string,
-    overall_rating: number,
-    nation_icon: string,
-    club_logo: string,
-    age: number,
-    player_number: number
-}
-
-interface Players {
-    players: PlayersDate[];
-}
-
+"use strict";
+const url = '/assets/API/players.json';
+let playersList = document.getElementById('players-list');
 playersList.innerHTML = '';
-
 fetch(url)
     .then(response => response.json())
-    .then((data : Players) => {
-        console.log(data.players);
-        for (let player of data.players) {
-            let div = document.createElement('div');
-            div.className = "player-card";
-            div.innerHTML = `<div class="card-header">
+    .then((data) => {
+    console.log(data.players);
+    for (let player of data.players) {
+        let div = document.createElement('div');
+        div.className = "player-card";
+        div.innerHTML = `<div class="card-header">
                 <h3 class="player-position">${player.position}</h3>
                 <div>
                     <img class="player-image" src="assets/API/imgs/players/${player.name}.png" alt="">
@@ -47,8 +28,7 @@ fetch(url)
                 <img src="${player.nation_icon}" alt="" class="player-flag">
                 <img src="${player.club_logo}" alt="" class="player-club">
             </div>`;
-            playersList.append(div);
-        }
-    })
-	.catch(error => console.log(error))
-
+        playersList.append(div);
+    }
+})
+    .catch(error => console.log(error));
