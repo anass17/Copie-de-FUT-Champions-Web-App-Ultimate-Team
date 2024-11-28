@@ -6,7 +6,7 @@
 
 body {
   background-color: #CCC;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Roboto", sans-serif;
   height: 100vh;
   overflow: hidden;
 }
@@ -316,7 +316,7 @@ h1 {
 .menu button.random-icon {
   height: 40px;
   width: 40px;
-  background-color: #FFF;
+  background-color: rgba(255, 255, 255, 0.2);
   position: absolute;
   left: 70px;
   top: 5px;
@@ -344,7 +344,7 @@ h1 {
 .menu button.pen-icon {
   height: 40px;
   width: 40px;
-  background-color: #FFF;
+  background-color: rgba(255, 255, 255, 0.2);
   position: absolute;
   left: 70px;
   top: 5px;
@@ -372,7 +372,7 @@ h1 {
 .menu button.formation-icon {
   height: 40px;
   width: 40px;
-  background-color: #FFF;
+  background-color: rgba(255, 255, 255, 0.2);
   position: absolute;
   left: 70px;
   top: 5px;
@@ -397,6 +397,14 @@ h1 {
   transform: rotate(-100deg);
 }
 
+.menu button:not(:first-of-type) {
+  transition: background-color 0.3s;
+}
+
+.menu button:not(:first-of-type):hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
 .modal-container {
   backdrop-filter: blur(2px);
   background-color: rgba(0, 0, 0, 0.6);
@@ -408,16 +416,17 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px 0;
 }
 
 .modal {
   width: 100%;
-  max-width: 600px;
+  max-width: 670px;
   border-radius: 10px;
   background-color: #FFF;
 }
 .modal .modal-header {
-  padding: 20px 25px;
+  padding: 20px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -429,11 +438,46 @@ h1 {
   font-weight: bold;
 }
 .modal .modal-body {
-  padding: 20px 25px;
+  padding: 30px;
+  padding-bottom: 5px;
+}
+.modal .modal-body h3 {
+  color: #096600;
+  margin-bottom: 15px;
 }
 .modal .modal-body label {
   display: block;
   margin-bottom: 5px;
+  color: #555;
+}
+.modal .modal-body .form-group {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+.modal .modal-body .form-group .form-input {
+  flex: 1;
+}
+.modal .modal-body .form-group .form-input.form-input-sm {
+  max-width: 120px;
+}
+.modal .modal-body input {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #999;
+}
+.modal .modal-footer {
+  padding: 20px 30px;
+  border-top: 1px solid #CCC;
+}
+.modal .modal-footer .add-player {
+  padding: 15px 15px;
+  border-radius: 7px;
+  background-color: dodgerblue;
+  color: #FFF;
+  font-weight: bold;
+  letter-spacing: 1.15px;
 }
 
 @keyframes bounce {

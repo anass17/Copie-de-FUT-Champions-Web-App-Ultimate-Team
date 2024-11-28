@@ -1,5 +1,5 @@
 "use strict";
-var _a, _b;
+var _a, _b, _c;
 const url = '/assets/API/players.json';
 let playersList = document.getElementById('players-list');
 playersList.innerHTML = '';
@@ -169,7 +169,11 @@ let menu = document.getElementById('menu');
     }
 });
 (_b = menu.querySelector('.pen-icon')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', function () {
-    alert('Yes');
+    modal.style.display = "flex";
+});
+let modal = document.getElementById('modal-container');
+(_c = modal === null || modal === void 0 ? void 0 : modal.querySelector('.close-btn')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', function () {
+    modal.style.display = 'none';
 });
 // menu?.querySelectorAll('button').forEach(item => {
 //     item.addEventListener('animationend', function () {

@@ -155,7 +155,7 @@
 .menu button.random-icon {
     height: 40px;
     width: 40px;
-    background-color: #FFF;
+    background-color: rgba(255, 255, 255, .2);
     position: absolute;
     left: 70px;
     top: 5px;
@@ -183,7 +183,7 @@
 .menu button.pen-icon {
     height: 40px;
     width: 40px;
-    background-color: #FFF;
+    background-color: rgba(255, 255, 255, .2);
     position: absolute;
     left: 70px;
     top: 5px;
@@ -211,7 +211,7 @@
 .menu button.formation-icon {
     height: 40px;
     width: 40px;
-    background-color: #FFF;
+    background-color: rgba(255, 255, 255, .2);
     position: absolute;
     left: 70px;
     top: 5px;
@@ -234,4 +234,12 @@
 
 .menu button.formation-icon svg {
     transform: rotate(-100deg);
+}
+
+.menu button:not(:first-of-type) {
+    transition: background-color .3s;
+}
+
+.menu button:not(:first-of-type):hover {
+    background-color: rgba(255, 255, 255, .5);
 }

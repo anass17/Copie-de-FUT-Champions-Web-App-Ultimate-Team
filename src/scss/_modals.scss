@@ -5,16 +5,17 @@
     @include overlay;
     @include fixed_full_screen;
     @include flex_center_element;
+    padding: 20px 0;
 }
 
 .modal {
     width: 100%;
-    max-width: 600px;
+    max-width: 670px;
     border-radius: 10px;
     background-color: #FFF;
 
     .modal-header {
-        padding: 20px 25px;
+        padding: 20px 30px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -28,11 +29,49 @@
     }
     
     .modal-body {
-        padding: 20px 25px;   
+        padding: 30px;
+        padding-bottom: 5px;  
+
+        h3 {
+            color: $main_color;
+            margin-bottom: 15px;
+        }
     
         label {
             display: block;
             margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .form-group .form-input{
+            flex: 1
+        }
+        .form-group .form-input.form-input-sm {
+            max-width: 120px;
+        }
+        input {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid #999;
+        }
+    }
+    .modal-footer {
+        padding: 20px 30px;
+        border-top: 1px solid #CCC;
+
+        .add-player {
+            padding: 15px 15px;
+            border-radius: 7px;
+            background-color: dodgerblue;
+            color: #FFF;
+            font-weight: bold;
+            letter-spacing: 1.15px;
         }
     }
 }

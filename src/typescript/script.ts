@@ -212,7 +212,13 @@ menu?.firstElementChild?.addEventListener('click', function () {
 });
 
 menu.querySelector('.pen-icon')?.addEventListener('click', function () {
-    alert('Yes');
+    modal.style.display = "flex";
+});
+
+let modal = document.getElementById('modal-container') as HTMLElement;
+
+modal?.querySelector('.close-btn')?.addEventListener('click', function () {
+    modal.style.display = 'none';
 });
 
 // menu?.querySelectorAll('button').forEach(item => {
