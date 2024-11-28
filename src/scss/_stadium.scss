@@ -10,7 +10,7 @@
 
     .selected-player-container {
         position: absolute;
-        font-size: 0.875vw;
+        font-size: 1vw;
     }
 
     .selected-player {
@@ -94,12 +94,12 @@
     }
     .selected-player-container.CM1 {
         bottom: 360px;
-        left: 24.25em;
+        left: 23em;
         transform: scale(0.5);
     }
     .selected-player-container.CM2 {
         bottom: 360px;
-        right: 24.25em;
+        right: 23em;
         transform: scale(0.5);
     }
     .selected-player-container.RM {
@@ -117,4 +117,121 @@
         left: 21em;
         transform: scale(0.4);
     }
+}
+
+.menu {
+    position: absolute;
+    left: 30px;
+    top: 30px;
+}
+
+.menu button {
+    border: 1px solid #FFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.menu button.menu-icon {
+    height: 50px;
+    width: 50px;
+    background-color: rgba(255, 255, 255, .2);
+    transition: background-color .3s;
+}
+
+.menu.open button.menu-icon {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.menu button.menu-icon svg {
+    transition: fill .3s;
+}
+
+.menu.open button.menu-icon svg {
+    fill: #333;
+}
+
+.menu button.random-icon {
+    height: 40px;
+    width: 40px;
+    background-color: #FFF;
+    position: absolute;
+    left: 70px;
+    top: 5px;
+    transform-origin: -45px 20px;
+    transform: rotate(-100deg);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.menu.closed button.random-icon {
+    animation: rotate-menu-option-0-reverse .5s ease-in-out backwards;
+}
+
+.menu.open button.random-icon {
+    visibility: visible;
+    opacity: 1;
+    transform: rotate(-20deg);
+    animation: rotate-menu-option-0 .5s .2s ease-in-out backwards;
+}
+
+.menu button.random-icon svg {
+    transform: rotate(20deg);
+}
+
+.menu button.pen-icon {
+    height: 40px;
+    width: 40px;
+    background-color: #FFF;
+    position: absolute;
+    left: 70px;
+    top: 5px;
+    transform-origin: -45px 20px;
+    opacity: 0;
+    transform: rotate(-40deg);
+    visibility: hidden;
+}
+
+.menu.closed button.pen-icon {
+    animation: rotate-menu-option-1-reverse .5s .1s ease-in-out backwards;
+}
+
+.menu.open button.pen-icon {
+    visibility: visible;
+    opacity: 1;
+    transform: rotate(40deg);
+    animation: rotate-menu-option-1 .5s .1s ease-in-out backwards;
+}
+
+.menu button.pen-icon svg {
+    transform: rotate(-40deg);
+}
+
+.menu button.formation-icon {
+    height: 40px;
+    width: 40px;
+    background-color: #FFF;
+    position: absolute;
+    left: 70px;
+    top: 5px;
+    transform-origin: -45px 20px;
+    transform: rotate(20deg);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.menu.closed button.formation-icon {
+    animation: rotate-menu-option-2-reverse .5s .2s ease-in-out backwards;
+}
+
+.menu.open button.formation-icon {
+    visibility: visible;
+    opacity: 1;
+    transform: rotate(100deg);
+    animation: rotate-menu-option-2 .5s ease-in-out backwards;
+}
+
+.menu button.formation-icon svg {
+    transform: rotate(-100deg);
 }

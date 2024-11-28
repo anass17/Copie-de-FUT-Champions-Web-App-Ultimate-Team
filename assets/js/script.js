@@ -1,4 +1,5 @@
 "use strict";
+var _a, _b;
 const url = '/assets/API/players.json';
 let playersList = document.getElementById('players-list');
 playersList.innerHTML = '';
@@ -53,7 +54,6 @@ function showRelevantPlayers() {
         return;
     }
     if (currentPlayerCard != null) {
-        console.log(currentPlayerCard.innerHTML);
         this.innerHTML = currentPlayerCard.innerHTML;
         this.classList.add('player-card');
         currentPlayerCard.classList.remove('selected');
@@ -153,6 +153,26 @@ function addOptions(element) {
             `<b class="role">${element.getAttribute('data-position')}</b>
             <span class="plus">+</span>`;
         element.classList.remove('player-card', 'active');
+        currentPlayerPlaceholder = null;
         showAllPlayers();
     });
 }
+let menu = document.getElementById('menu');
+(_a = menu === null || menu === void 0 ? void 0 : menu.firstElementChild) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function () {
+    if (!menu.classList.contains('open')) {
+        menu.classList.add('open');
+        menu.classList.remove('closed');
+    }
+    else {
+        menu.classList.remove('open');
+        menu.classList.add('closed');
+    }
+});
+(_b = menu.querySelector('.pen-icon')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', function () {
+    alert('Yes');
+});
+// menu?.querySelectorAll('button').forEach(item => {
+//     item.addEventListener('animationend', function () {
+//         this.style.animation = 'none';
+//     });
+// })

@@ -82,7 +82,6 @@ function showRelevantPlayers(this: HTMLElement) {
     }
 
     if (currentPlayerCard != null) {
-        console.log(currentPlayerCard.innerHTML);
         this.innerHTML = currentPlayerCard.innerHTML;
         this.classList.add('player-card');
         currentPlayerCard.classList.remove('selected');
@@ -195,6 +194,29 @@ function addOptions(element: HTMLElement) {
             `<b class="role">${element.getAttribute('data-position')}</b>
             <span class="plus">+</span>`;
         element.classList.remove('player-card', 'active');
+        currentPlayerPlaceholder = null;
         showAllPlayers();
     })
 }
+
+let menu = document.getElementById('menu') as HTMLElement;
+
+menu?.firstElementChild?.addEventListener('click', function () {
+    if (!menu.classList.contains('open')) {
+        menu.classList.add('open');
+        menu.classList.remove('closed');
+    } else {
+        menu.classList.remove('open');
+        menu.classList.add('closed');
+    }
+});
+
+menu.querySelector('.pen-icon')?.addEventListener('click', function () {
+    alert('Yes');
+});
+
+// menu?.querySelectorAll('button').forEach(item => {
+//     item.addEventListener('animationend', function () {
+//         this.style.animation = 'none';
+//     });
+// })

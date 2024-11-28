@@ -177,7 +177,7 @@ h1 {
 }
 .stadium .selected-player-container {
   position: absolute;
-  font-size: 0.875vw;
+  font-size: 1vw;
 }
 .stadium .selected-player {
   color: #FFF;
@@ -256,12 +256,12 @@ h1 {
 }
 .stadium .selected-player-container.CM1 {
   bottom: 360px;
-  left: 24.25em;
+  left: 23em;
   transform: scale(0.5);
 }
 .stadium .selected-player-container.CM2 {
   bottom: 360px;
-  right: 24.25em;
+  right: 23em;
   transform: scale(0.5);
 }
 .stadium .selected-player-container.RM {
@@ -280,6 +280,162 @@ h1 {
   transform: scale(0.4);
 }
 
+.menu {
+  position: absolute;
+  left: 30px;
+  top: 30px;
+}
+
+.menu button {
+  border: 1px solid #FFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.menu button.menu-icon {
+  height: 50px;
+  width: 50px;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: background-color 0.3s;
+}
+
+.menu.open button.menu-icon {
+  background-color: rgb(255, 255, 255);
+}
+
+.menu button.menu-icon svg {
+  transition: fill 0.3s;
+}
+
+.menu.open button.menu-icon svg {
+  fill: #333;
+}
+
+.menu button.random-icon {
+  height: 40px;
+  width: 40px;
+  background-color: #FFF;
+  position: absolute;
+  left: 70px;
+  top: 5px;
+  transform-origin: -45px 20px;
+  transform: rotate(-100deg);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.menu.closed button.random-icon {
+  animation: rotate-menu-option-0-reverse 0.5s ease-in-out backwards;
+}
+
+.menu.open button.random-icon {
+  visibility: visible;
+  opacity: 1;
+  transform: rotate(-20deg);
+  animation: rotate-menu-option-0 0.5s 0.2s ease-in-out backwards;
+}
+
+.menu button.random-icon svg {
+  transform: rotate(20deg);
+}
+
+.menu button.pen-icon {
+  height: 40px;
+  width: 40px;
+  background-color: #FFF;
+  position: absolute;
+  left: 70px;
+  top: 5px;
+  transform-origin: -45px 20px;
+  opacity: 0;
+  transform: rotate(-40deg);
+  visibility: hidden;
+}
+
+.menu.closed button.pen-icon {
+  animation: rotate-menu-option-1-reverse 0.5s 0.1s ease-in-out backwards;
+}
+
+.menu.open button.pen-icon {
+  visibility: visible;
+  opacity: 1;
+  transform: rotate(40deg);
+  animation: rotate-menu-option-1 0.5s 0.1s ease-in-out backwards;
+}
+
+.menu button.pen-icon svg {
+  transform: rotate(-40deg);
+}
+
+.menu button.formation-icon {
+  height: 40px;
+  width: 40px;
+  background-color: #FFF;
+  position: absolute;
+  left: 70px;
+  top: 5px;
+  transform-origin: -45px 20px;
+  transform: rotate(20deg);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.menu.closed button.formation-icon {
+  animation: rotate-menu-option-2-reverse 0.5s 0.2s ease-in-out backwards;
+}
+
+.menu.open button.formation-icon {
+  visibility: visible;
+  opacity: 1;
+  transform: rotate(100deg);
+  animation: rotate-menu-option-2 0.5s ease-in-out backwards;
+}
+
+.menu button.formation-icon svg {
+  transform: rotate(-100deg);
+}
+
+.modal-container {
+  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 10px;
+  background-color: #FFF;
+}
+.modal .modal-header {
+  padding: 20px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #CCC;
+}
+.modal .modal-header .close-btn {
+  font-size: 23px;
+  color: red;
+  font-weight: bold;
+}
+.modal .modal-body {
+  padding: 20px 25px;
+}
+.modal .modal-body label {
+  display: block;
+  margin-bottom: 5px;
+}
+
 @keyframes bounce {
   0% {
     transform: scale(1.2) translateY(0);
@@ -295,6 +451,78 @@ h1 {
   }
   100% {
     transform: scale(1.2) translateY(0);
+  }
+}
+@keyframes rotate-menu-option-0 {
+  0% {
+    visibility: hidden;
+    opacity: 0;
+    transform: rotate(-100deg) scale(0);
+  }
+  100% {
+    visibility: visible;
+    opacity: 1;
+    transform: rotate(-20deg) scale(1);
+  }
+}
+@keyframes rotate-menu-option-1 {
+  0% {
+    visibility: hidden;
+    opacity: 0;
+    transform: rotate(-40deg) scale(0);
+  }
+  100% {
+    visibility: visible;
+    opacity: 1;
+    transform: rotate(40deg) scale(1);
+  }
+}
+@keyframes rotate-menu-option-2 {
+  0% {
+    visibility: hidden;
+    opacity: 0;
+    transform: rotate(20deg) scale(0);
+  }
+  100% {
+    visibility: visible;
+    opacity: 1;
+    transform: rotate(100deg) scale(1);
+  }
+}
+@keyframes rotate-menu-option-0-reverse {
+  0% {
+    visibility: visible;
+    opacity: 1;
+    transform: rotate(-20deg) scale(1);
+  }
+  100% {
+    visibility: hidden;
+    opacity: 0;
+    transform: rotate(-100deg) scale(0);
+  }
+}
+@keyframes rotate-menu-option-1-reverse {
+  0% {
+    visibility: visible;
+    opacity: 1;
+    transform: rotate(40deg) scale(1);
+  }
+  100% {
+    visibility: hidden;
+    opacity: 0;
+    transform: rotate(-40deg) scale(0);
+  }
+}
+@keyframes rotate-menu-option-2-reverse {
+  0% {
+    visibility: visible;
+    opacity: 1;
+    transform: rotate(100deg) scale(1);
+  }
+  100% {
+    visibility: hidden;
+    opacity: 0;
+    transform: rotate(20deg) scale(0);
   }
 }
 
