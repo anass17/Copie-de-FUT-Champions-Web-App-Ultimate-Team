@@ -71,6 +71,7 @@ function showRelevantPlayers(this: HTMLElement) {
 
     if (this.classList.contains('active')) {
         currentPlayerPlaceholder?.classList.remove('active');
+        currentPlayerPlaceholder?.querySelector('.card-options')?.remove();
         currentPlayerPlaceholder = null;
         showAllPlayers();
         return;
@@ -88,6 +89,12 @@ function showRelevantPlayers(this: HTMLElement) {
         currentPlayerCard = null;
         hideRelevantPositions();
         return;
+    }
+
+    currentPlayerPlaceholder?.querySelector('.card-options')?.remove();
+
+    if (this.classList.contains('player-card')) {
+        addOptions(this);
     }
 
     currentPlayerPlaceholder?.classList.remove('active');
@@ -172,3 +179,22 @@ searchInput?.addEventListener('keyup', function (this: HTMLInputElement) {
         }
     });
 });
+
+function addOptions(element: HTMLElement) {
+    let div = document.createElement('div');
+    div.className = "card-options";
+    let button = document.createElement('button');
+    button.className = "delete-option";
+    button.textContent = "X";
+
+    div.append(button);
+    element.append(div);
+    div.addEventListener('click', function (e) {
+        e.stopPropagation();
+        element.innerHTML = 
+            `<b class="role">${element.getAttribute('data-position')}</b>
+            <span class="plus">+</span>`;
+        element.classList.remove('player-card', 'active');
+        showAllPlayers();
+    })
+}

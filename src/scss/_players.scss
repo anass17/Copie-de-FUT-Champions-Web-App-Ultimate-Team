@@ -75,6 +75,20 @@
         width: 1.85em;
         border: 1px solid #555;
     }
+    .card-options {
+        position: absolute;
+        top: 0.6em;
+        right: -1em;
+    }
+    .delete-option {
+        color: #FFF;
+        font-size: 1.8em;
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 50%;
+        background-color: red;
+        padding-top: 0.1em;
+    }
 }
 
 .players-section {
