@@ -461,7 +461,8 @@ h1 {
 .modal .modal-body .form-group .form-input.form-input-sm {
   max-width: 120px;
 }
-.modal .modal-body input {
+.modal .modal-body input,
+.modal .modal-body select {
   width: 100%;
   padding: 10px 15px;
   border-radius: 5px;

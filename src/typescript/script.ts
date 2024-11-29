@@ -1,5 +1,6 @@
 const url : string = '/assets/API/players.json';
 let playersList = document.getElementById('players-list') as HTMLDivElement;
+let playersCount = 0;
 
 interface PlayersDate {
     id: number,
@@ -12,7 +13,8 @@ interface PlayersDate {
     nation_icon: string,
     club_logo: string,
     age: number,
-    player_number: number
+    player_number: number,
+    player_image?: string
 }
 
 interface Players {
@@ -25,35 +27,9 @@ fetch(url)
     .then(response => response.json())
     .then((data : Players) => {
         for (let player of data.players) {
-            let div = document.createElement('div');
-
-
-            div.className = "player-card";
-            div.dataset.position = player.position.join('-');
-            div.addEventListener('click', addPlayerToStadium);
-
-
-            div.innerHTML = `<div class="card-header">
-                <h3 class="player-position">${player.position[0]}</h3>
-                <div>
-                    <img class="player-image" src="assets/API/imgs/players/${player.name}.png" alt="">
-                </div>
-                <div>
-                    <b class="player-rating">${player.overall_rating}</b>
-                </div>
-            </div>
-            <h3 class="player-name">${player.name}</h3>
-            <div class="player-info">
-                <span>Age: ${player.age}</span>
-                <span>N.: ${player.player_number}</span>
-            </div>
-            <h4 class="player-ligue">${player.league}</h4>
-            <div class="player-assets">
-                <img src="${player.nation_icon}" alt="" class="player-flag">
-                <img src="${player.club_logo}" alt="" class="player-club">
-            </div>`;
-            playersList.append(div);
+            addPlayerCard(player)
         }
+        playersCount = data.players.length;
     })
 	.catch(error => console.log(error))
 
@@ -65,6 +41,36 @@ selectedPlayersPlaceholders.forEach((item) => {
     item.addEventListener('click', showRelevantPlayers);
 })
 
+function addPlayerCard(player : PlayersDate) {
+    let div = document.createElement('div');
+
+
+    div.className = "player-card";
+    div.dataset.position = player.position.join('-');
+    div.addEventListener('click', addPlayerToStadium);
+
+
+    div.innerHTML = `<div class="card-header">
+        <h3 class="player-position">${player.position[0]}</h3>
+        <div>
+            <img class="player-image" src="${player.player_image || `assets/API/imgs/players/${player.name}.png`}" alt="">
+        </div>
+        <div>
+            <b class="player-rating">${player.overall_rating}</b>
+        </div>
+    </div>
+    <h3 class="player-name">${player.name}</h3>
+    <div class="player-info">
+        <span>Age: ${player.age}</span>
+        <span>N.: ${player.player_number}</span>
+    </div>
+    <h4 class="player-ligue">${player.league}</h4>
+    <div class="player-assets">
+        <img src="${player.nation_icon}" alt="" class="player-flag">
+        <img src="${player.club_logo}" alt="" class="player-club">
+    </div>`;
+    playersList.append(div);
+}
 
 function showRelevantPlayers(this: HTMLElement) {
     let position = this.dataset.position as string;
@@ -215,14 +221,84 @@ menu.querySelector('.pen-icon')?.addEventListener('click', function () {
     modal.style.display = "flex";
 });
 
+//-----------------------------------------
+// *** Modal: Add players
+//-----------------------------------------
+
 let modal = document.getElementById('modal-container') as HTMLElement;
+let inputs = modal.querySelectorAll('input, select');
+let validRegExp = [
+    /^[a-z A-Z]+$/,
+    /^[1-5][0-9]$/, 
+    /^[1-9][0-9]?$/, 
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[a-z ]+$/,
+    /^[A-Z]+$/,
+    /^[a-zA-Z 0-9]+$/,
+    /\.(png|jpg|jpeg|webp)$/,
+    /\.(png|jpg|jpeg|webp)$/,
+]
 
 modal?.querySelector('.close-btn')?.addEventListener('click', function () {
     modal.style.display = 'none';
 });
 
-// menu?.querySelectorAll('button').forEach(item => {
-//     item.addEventListener('animationend', function () {
-//         this.style.animation = 'none';
-//     });
-// })
+modal.querySelector('.add-player')?.addEventListener('click', function () {
+    let errors : boolean = false;
+    for (let i = 0; i < inputs.length; i++) {
+        let itemHTML = inputs[i] as HTMLInputElement;
+
+        if (itemHTML.value.search(validRegExp[i]) >= 0) {
+            itemHTML.style.borderColor = "";
+        } else {
+            itemHTML.style.borderColor = "red";
+            errors = true;
+        }
+    }
+
+    if (errors == true) {
+        return;
+    }
+    //C:\fakepath\green-player-background.png
+
+    let data : PlayersDate = {
+        id: ++playersCount,
+        name: (inputs[0] as HTMLInputElement).value,
+        age: +(inputs[1] as HTMLInputElement).value,
+        player_number: +(inputs[2] as HTMLInputElement).value,
+        overall_rating: 
+            Math.round((+(inputs[3] as HTMLInputElement).value 
+            + +(inputs[4] as HTMLInputElement).value
+            + +(inputs[5] as HTMLInputElement).value
+            + +(inputs[6] as HTMLInputElement).value
+            + +(inputs[7] as HTMLInputElement).value
+            + +(inputs[8] as HTMLInputElement).value) / 6),
+        nationality: (inputs[9] as HTMLInputElement).value,
+        nation_icon: `https://www.countryflags.com/wp-content/uploads/${(inputs[9] as HTMLInputElement).value}-flag-png-large.png`,
+        position: [(inputs[10] as HTMLInputElement).value],
+        league: (inputs[11] as HTMLInputElement).value,
+        club: "",
+        player_image: "/assets/API/imgs/players/" + (inputs[12] as HTMLInputElement).value.replace("C:\\fakepath\\", ''),
+        club_logo: "/assets/API/imgs/club/" + (inputs[13] as HTMLInputElement).value.replace("C:\\fakepath\\", ''),
+    }
+
+
+    addPlayerCard(data);
+    modal.style.display = 'none';
+});
+
+inputs.forEach((item, index) => {
+    let itemHTML = item as HTMLInputElement;
+    itemHTML.addEventListener('blur', function () {
+        if (this.value.search(validRegExp[index]) >= 0) {
+            this.style.borderColor = "";
+        } else {
+            this.style.borderColor = "red";
+        }
+    })
+})

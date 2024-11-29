@@ -1,37 +1,16 @@
 "use strict";
-var _a, _b, _c;
+var _a, _b, _c, _d;
 const url = '/assets/API/players.json';
 let playersList = document.getElementById('players-list');
+let playersCount = 0;
 playersList.innerHTML = '';
 fetch(url)
     .then(response => response.json())
     .then((data) => {
     for (let player of data.players) {
-        let div = document.createElement('div');
-        div.className = "player-card";
-        div.dataset.position = player.position.join('-');
-        div.addEventListener('click', addPlayerToStadium);
-        div.innerHTML = `<div class="card-header">
-                <h3 class="player-position">${player.position[0]}</h3>
-                <div>
-                    <img class="player-image" src="assets/API/imgs/players/${player.name}.png" alt="">
-                </div>
-                <div>
-                    <b class="player-rating">${player.overall_rating}</b>
-                </div>
-            </div>
-            <h3 class="player-name">${player.name}</h3>
-            <div class="player-info">
-                <span>Age: ${player.age}</span>
-                <span>N.: ${player.player_number}</span>
-            </div>
-            <h4 class="player-ligue">${player.league}</h4>
-            <div class="player-assets">
-                <img src="${player.nation_icon}" alt="" class="player-flag">
-                <img src="${player.club_logo}" alt="" class="player-club">
-            </div>`;
-        playersList.append(div);
+        addPlayerCard(player);
     }
+    playersCount = data.players.length;
 })
     .catch(error => console.log(error));
 let selectedPlayersPlaceholders = document.querySelectorAll('.selected-player');
@@ -40,6 +19,32 @@ let currentPlayerCard = null;
 selectedPlayersPlaceholders.forEach((item) => {
     item.addEventListener('click', showRelevantPlayers);
 });
+function addPlayerCard(player) {
+    let div = document.createElement('div');
+    div.className = "player-card";
+    div.dataset.position = player.position.join('-');
+    div.addEventListener('click', addPlayerToStadium);
+    div.innerHTML = `<div class="card-header">
+        <h3 class="player-position">${player.position[0]}</h3>
+        <div>
+            <img class="player-image" src="${player.player_image || `assets/API/imgs/players/${player.name}.png`}" alt="">
+        </div>
+        <div>
+            <b class="player-rating">${player.overall_rating}</b>
+        </div>
+    </div>
+    <h3 class="player-name">${player.name}</h3>
+    <div class="player-info">
+        <span>Age: ${player.age}</span>
+        <span>N.: ${player.player_number}</span>
+    </div>
+    <h4 class="player-ligue">${player.league}</h4>
+    <div class="player-assets">
+        <img src="${player.nation_icon}" alt="" class="player-flag">
+        <img src="${player.club_logo}" alt="" class="player-club">
+    </div>`;
+    playersList.append(div);
+}
 function showRelevantPlayers() {
     var _a, _b;
     let position = this.dataset.position;
@@ -171,12 +176,76 @@ let menu = document.getElementById('menu');
 (_b = menu.querySelector('.pen-icon')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', function () {
     modal.style.display = "flex";
 });
+//-----------------------------------------
+// *** Modal: Add players
+//-----------------------------------------
 let modal = document.getElementById('modal-container');
+let inputs = modal.querySelectorAll('input, select');
+let validRegExp = [
+    /^[a-z A-Z]+$/,
+    /^[1-5][0-9]$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[a-z ]+$/,
+    /^[A-Z]+$/,
+    /^[a-zA-Z 0-9]+$/,
+    /\.(png|jpg|jpeg|webp)$/,
+    /\.(png|jpg|jpeg|webp)$/,
+];
 (_c = modal === null || modal === void 0 ? void 0 : modal.querySelector('.close-btn')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', function () {
     modal.style.display = 'none';
 });
-// menu?.querySelectorAll('button').forEach(item => {
-//     item.addEventListener('animationend', function () {
-//         this.style.animation = 'none';
-//     });
-// })
+(_d = modal.querySelector('.add-player')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', function () {
+    let errors = false;
+    for (let i = 0; i < inputs.length; i++) {
+        let itemHTML = inputs[i];
+        if (itemHTML.value.search(validRegExp[i]) >= 0) {
+            itemHTML.style.borderColor = "";
+        }
+        else {
+            itemHTML.style.borderColor = "red";
+            errors = true;
+        }
+    }
+    if (errors == true) {
+        return;
+    }
+    //C:\fakepath\green-player-background.png
+    let data = {
+        id: ++playersCount,
+        name: inputs[0].value,
+        age: +inputs[1].value,
+        player_number: +inputs[2].value,
+        overall_rating: Math.round((+inputs[3].value
+            + +inputs[4].value
+            + +inputs[5].value
+            + +inputs[6].value
+            + +inputs[7].value
+            + +inputs[8].value) / 6),
+        nationality: inputs[9].value,
+        nation_icon: `https://www.countryflags.com/wp-content/uploads/${inputs[9].value}-flag-png-large.png`,
+        position: [inputs[10].value],
+        league: inputs[11].value,
+        club: "",
+        player_image: "/assets/API/imgs/players/" + inputs[12].value.replace("C:\\fakepath\\", ''),
+        club_logo: "/assets/API/imgs/club/" + inputs[13].value.replace("C:\\fakepath\\", ''),
+    };
+    addPlayerCard(data);
+    modal.style.display = 'none';
+});
+inputs.forEach((item, index) => {
+    let itemHTML = item;
+    itemHTML.addEventListener('blur', function () {
+        if (this.value.search(validRegExp[index]) >= 0) {
+            this.style.borderColor = "";
+        }
+        else {
+            this.style.borderColor = "red";
+        }
+    });
+});
