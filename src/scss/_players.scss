@@ -77,8 +77,13 @@
     }
     .card-options {
         position: absolute;
-        top: 0.6em;
-        right: -1em;
+        top: -1.4em;
+        right: -3.5em;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        gap: 1.5em;
     }
     .delete-option {
         color: #FFF;
@@ -88,6 +93,21 @@
         border-radius: 50%;
         background-color: red;
         padding-top: 0.1em;
+        filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, .15));
+    }
+    .switch-option {
+        color: #FFF;
+        font-size: 1.8em;
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 50%;
+        background-color: #034f00;
+        padding-top: 0.1em;
+        filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, .15));
+    }
+    .switch-option svg {
+        width: .9em;
+        fill: #FFF;
     }
 }
 

@@ -11,6 +11,7 @@
     .selected-player-container {
         position: absolute;
         font-size: 1vw;
+        transition: all .5s;
     }
 
     .selected-player {
@@ -64,17 +65,17 @@
 
     .selected-player-container.GK {
         bottom: 0;
-        left: 50%;
-        transform: translateX(-50%) scale(0.6);
+        right: 50%;
+        transform: translateX(50%) scale(0.6);
     }
     .selected-player-container.LB {
         bottom: 210px;
-        left: 3.75em;
+        right: 54.3em;
         transform: scale(0.55);
     }
     .selected-player-container.CB1 {
         bottom: 150px;
-        left: 15.625em;
+        right: 42.4em;
         transform: scale(0.55);
     }
     .selected-player-container.CB2 {
@@ -89,12 +90,12 @@
     }
     .selected-player-container.LM {
         bottom: 415px;
-        left: 9.8125em;
+        right: 48.2em;
         transform: scale(0.5);
     }
     .selected-player-container.CM1 {
         bottom: 360px;
-        left: 23em;
+        right: 35em;
         transform: scale(0.5);
     }
     .selected-player-container.CM2 {
@@ -114,7 +115,7 @@
     }
     .selected-player-container.ST2 {
         bottom: 515px;
-        left: 21em;
+        right: 37em;
         transform: scale(0.4);
     }
 }
@@ -152,7 +153,7 @@
     fill: #333;
 }
 
-.menu button.random-icon {
+.menu button.formation-icon {
     height: 40px;
     width: 40px;
     background-color: rgba(255, 255, 255, .2);
@@ -165,18 +166,18 @@
     visibility: hidden;
 }
 
-.menu.closed button.random-icon {
+.menu.closed button.formation-icon {
     animation: rotate-menu-option-0-reverse .5s ease-in-out backwards;
 }
 
-.menu.open button.random-icon {
+.menu.open button.formation-icon {
     visibility: visible;
     opacity: 1;
     transform: rotate(-20deg);
     animation: rotate-menu-option-0 .5s .2s ease-in-out backwards;
 }
 
-.menu button.random-icon svg {
+.menu button.formation-icon svg {
     transform: rotate(20deg);
 }
 
@@ -208,7 +209,7 @@
     transform: rotate(-40deg);
 }
 
-.menu button.formation-icon {
+.menu button.random-icon {
     height: 40px;
     width: 40px;
     background-color: rgba(255, 255, 255, .2);
@@ -221,18 +222,18 @@
     visibility: hidden;
 }
 
-.menu.closed button.formation-icon {
+.menu.closed button.random-icon {
     animation: rotate-menu-option-2-reverse .5s .2s ease-in-out backwards;
 }
 
-.menu.open button.formation-icon {
+.menu.open button.random-icon {
     visibility: visible;
     opacity: 1;
     transform: rotate(100deg);
     animation: rotate-menu-option-2 .5s ease-in-out backwards;
 }
 
-.menu button.formation-icon svg {
+.menu button.random-icon svg {
     transform: rotate(-100deg);
 }
 
@@ -242,4 +243,17 @@
 
 .menu button:not(:first-of-type):hover {
     background-color: rgba(255, 255, 255, .5);
+}
+
+.menu .formation-options {
+    position: absolute;
+    top: -20px;
+    left: 120px;
+    padding: 6px;
+
+    select {
+        padding: 8px;
+        border-radius: 5px;
+        width: 100px;
+    }
 }

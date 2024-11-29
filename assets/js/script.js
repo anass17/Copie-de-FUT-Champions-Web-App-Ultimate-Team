@@ -3,6 +3,7 @@ var _a, _b, _c, _d;
 const url = '/assets/API/players.json';
 let playersList = document.getElementById('players-list');
 let playersCount = 0;
+let switchCards = false;
 playersList.innerHTML = '';
 fetch(url)
     .then(response => response.json())
@@ -46,7 +47,7 @@ function addPlayerCard(player) {
     playersList.append(div);
 }
 function showRelevantPlayers() {
-    var _a, _b;
+    var _a, _b, _c, _d, _e, _f;
     let position = this.dataset.position;
     if (this.classList.contains('active')) {
         currentPlayerPlaceholder === null || currentPlayerPlaceholder === void 0 ? void 0 : currentPlayerPlaceholder.classList.remove('active');
@@ -58,21 +59,47 @@ function showRelevantPlayers() {
     if (this.classList.contains('blocked-position')) {
         return;
     }
+    // Card already selected
     if (currentPlayerCard != null) {
-        this.innerHTML = currentPlayerCard.innerHTML;
+        (_b = this.querySelector('.card-options')) === null || _b === void 0 ? void 0 : _b.remove();
         this.classList.add('player-card');
         currentPlayerCard.classList.remove('selected');
+        // Switching Cards
+        if (switchCards == true) {
+            // Switch Content
+            let cParent = currentPlayerCard.parentElement;
+            let tParent = this.parentElement;
+            let intermediate = (_c = currentPlayerCard.parentElement) === null || _c === void 0 ? void 0 : _c.className;
+            cParent.className = (_d = this.parentElement) === null || _d === void 0 ? void 0 : _d.className;
+            tParent.className = intermediate;
+            // this.classList.remove('active', 'possible-position');
+            // this.classList.add('player-card');
+            // this?.querySelector('.card-options')?.remove();
+            // currentPlayerCard.classList.remove('active', 'possible-position');
+            // currentPlayerCard.classList.add('player-card');
+            (_e = currentPlayerPlaceholder === null || currentPlayerPlaceholder === void 0 ? void 0 : currentPlayerPlaceholder.querySelector('.card-options')) === null || _e === void 0 ? void 0 : _e.remove();
+            currentPlayerPlaceholder = null;
+            currentPlayerCard = null;
+            showAllPlayers();
+            resetCards();
+            switchCards = false;
+            return;
+        }
+        else {
+            this.innerHTML = currentPlayerCard.innerHTML;
+            this.classList.remove('active');
+        }
         currentPlayerCard = null;
         hideRelevantPositions();
         return;
     }
-    (_b = currentPlayerPlaceholder === null || currentPlayerPlaceholder === void 0 ? void 0 : currentPlayerPlaceholder.querySelector('.card-options')) === null || _b === void 0 ? void 0 : _b.remove();
+    this.classList.add('active');
+    currentPlayerPlaceholder === null || currentPlayerPlaceholder === void 0 ? void 0 : currentPlayerPlaceholder.classList.remove('active');
+    (_f = currentPlayerPlaceholder === null || currentPlayerPlaceholder === void 0 ? void 0 : currentPlayerPlaceholder.querySelector('.card-options')) === null || _f === void 0 ? void 0 : _f.remove();
+    currentPlayerPlaceholder = this;
     if (this.classList.contains('player-card')) {
         addOptions(this);
     }
-    currentPlayerPlaceholder === null || currentPlayerPlaceholder === void 0 ? void 0 : currentPlayerPlaceholder.classList.remove('active');
-    currentPlayerPlaceholder = this;
-    this.classList.add('active');
     playersList.querySelectorAll('.player-card').forEach((item) => {
         var _a;
         const element = item;
@@ -85,6 +112,7 @@ function showRelevantPlayers() {
     });
 }
 function addPlayerToStadium() {
+    switchCards = false;
     if (currentPlayerPlaceholder != null) {
         currentPlayerPlaceholder === null || currentPlayerPlaceholder === void 0 ? void 0 : currentPlayerPlaceholder.classList.add('player-card');
         currentPlayerPlaceholder === null || currentPlayerPlaceholder === void 0 ? void 0 : currentPlayerPlaceholder.classList.remove('active');
@@ -131,6 +159,9 @@ function hideRelevantPositions() {
         HTMLItem.classList.remove('blocked-position');
     });
 }
+//--------------------------------
+// *** Search
+//--------------------------------
 let searchInput = document.getElementById('search');
 searchInput === null || searchInput === void 0 ? void 0 : searchInput.addEventListener('keyup', function () {
     playersList.querySelectorAll('.player-card').forEach((item) => {
@@ -147,12 +178,11 @@ searchInput === null || searchInput === void 0 ? void 0 : searchInput.addEventLi
 function addOptions(element) {
     let div = document.createElement('div');
     div.className = "card-options";
-    let button = document.createElement('button');
-    button.className = "delete-option";
-    button.textContent = "X";
-    div.append(button);
-    element.append(div);
-    div.addEventListener('click', function (e) {
+    let deleteButton = document.createElement('button');
+    deleteButton.className = "delete-option";
+    deleteButton.textContent = "X";
+    div.append(deleteButton);
+    deleteButton.addEventListener('click', function (e) {
         e.stopPropagation();
         element.innerHTML =
             `<b class="role">${element.getAttribute('data-position')}</b>
@@ -161,6 +191,25 @@ function addOptions(element) {
         currentPlayerPlaceholder = null;
         showAllPlayers();
     });
+    let switchButton = document.createElement('button');
+    switchButton.className = "switch-option";
+    switchButton.innerHTML =
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 224c0 17.7 14.3 32 32 32s32-14.3 32-32c0-53 43-96 96-96l160 0 0 32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9S320 19.1 320 32l0 32L160 64C71.6 64 0 135.6 0 224zm512 64c0-17.7-14.3-32-32-32s-32 14.3-32 32c0 53-43 96-96 96l-160 0 0-32c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6l0-32 160 0c88.4 0 160-71.6 160-160z"/></svg>`;
+    div.append(switchButton);
+    switchButton.addEventListener('click', function (e) {
+        e.stopPropagation();
+        selectedPlayersPlaceholders.forEach(item => {
+            if (element != item && item.getAttribute('data-position') === element.getAttribute('data-position')) {
+                item.classList.add('possible-position');
+            }
+            else {
+                item.classList.add('blocked-position');
+            }
+            currentPlayerCard = element;
+            switchCards = true;
+        });
+    });
+    element.append(div);
 }
 let menu = document.getElementById('menu');
 (_a = menu === null || menu === void 0 ? void 0 : menu.firstElementChild) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function () {
@@ -249,3 +298,11 @@ inputs.forEach((item, index) => {
         }
     });
 });
+//-------------------------------
+// *** Reset Cards
+//-------------------------------
+function resetCards() {
+    selectedPlayersPlaceholders.forEach(item => {
+        item.classList.remove('active', 'possible-position', 'blocked-position');
+    });
+}

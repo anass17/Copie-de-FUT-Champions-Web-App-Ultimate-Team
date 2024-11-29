@@ -1,6 +1,7 @@
 const url : string = '/assets/API/players.json';
 let playersList = document.getElementById('players-list') as HTMLDivElement;
 let playersCount = 0;
+let switchCards = false;
 
 interface PlayersDate {
     id: number,
@@ -87,25 +88,57 @@ function showRelevantPlayers(this: HTMLElement) {
         return;
     }
 
+    // Card already selected
+
     if (currentPlayerCard != null) {
-        this.innerHTML = currentPlayerCard.innerHTML;
+        this.querySelector('.card-options')?.remove();
         this.classList.add('player-card');
         currentPlayerCard.classList.remove('selected');
+
+        // Switching Cards
+
+        if (switchCards == true) {
+            // Switch Content
+            let cParent = currentPlayerCard.parentElement as HTMLElement;
+            let tParent = this.parentElement as HTMLElement;
+
+            let intermediate = currentPlayerCard.parentElement?.className;
+            cParent.className = this.parentElement?.className as string;
+            tParent.className = intermediate as string;
+
+            // this.classList.remove('active', 'possible-position');
+            // this.classList.add('player-card');
+            // this?.querySelector('.card-options')?.remove();
+            // currentPlayerCard.classList.remove('active', 'possible-position');
+            // currentPlayerCard.classList.add('player-card');
+            currentPlayerPlaceholder?.querySelector('.card-options')?.remove();
+                
+                
+            currentPlayerPlaceholder = null;
+            currentPlayerCard = null;
+            showAllPlayers();
+            resetCards();
+            switchCards = false;
+            return;
+        } else {
+            this.innerHTML = currentPlayerCard.innerHTML;
+            this.classList.remove('active');
+        }
         currentPlayerCard = null;
         hideRelevantPositions();
         return;
-    }
+    } 
 
+
+    this.classList.add('active');
+    currentPlayerPlaceholder?.classList.remove('active');
     currentPlayerPlaceholder?.querySelector('.card-options')?.remove();
+    currentPlayerPlaceholder = this;
+
 
     if (this.classList.contains('player-card')) {
         addOptions(this);
     }
-
-    currentPlayerPlaceholder?.classList.remove('active');
-    currentPlayerPlaceholder = this;
-
-    this.classList.add('active');
     
     playersList.querySelectorAll('.player-card').forEach((item) => {
 
@@ -120,6 +153,7 @@ function showRelevantPlayers(this: HTMLElement) {
 }
 
 function addPlayerToStadium(this : HTMLElement) {
+    switchCards = false;
     if (currentPlayerPlaceholder != null) {
         currentPlayerPlaceholder?.classList.add('player-card');
         currentPlayerPlaceholder?.classList.remove('active');
@@ -170,6 +204,10 @@ function hideRelevantPositions() {
     })
 }
 
+//--------------------------------
+// *** Search
+//--------------------------------
+
 let searchInput = document.getElementById('search');
 
 searchInput?.addEventListener('keyup', function (this: HTMLInputElement) {
@@ -188,13 +226,13 @@ searchInput?.addEventListener('keyup', function (this: HTMLInputElement) {
 function addOptions(element: HTMLElement) {
     let div = document.createElement('div');
     div.className = "card-options";
-    let button = document.createElement('button');
-    button.className = "delete-option";
-    button.textContent = "X";
 
-    div.append(button);
-    element.append(div);
-    div.addEventListener('click', function (e) {
+    let deleteButton = document.createElement('button');
+    deleteButton.className = "delete-option";
+    deleteButton.textContent = "X";
+    div.append(deleteButton);
+
+    deleteButton.addEventListener('click', function (e) {
         e.stopPropagation();
         element.innerHTML = 
             `<b class="role">${element.getAttribute('data-position')}</b>
@@ -203,6 +241,28 @@ function addOptions(element: HTMLElement) {
         currentPlayerPlaceholder = null;
         showAllPlayers();
     })
+
+    let switchButton = document.createElement('button');
+    switchButton.className = "switch-option";
+    switchButton.innerHTML = 
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 224c0 17.7 14.3 32 32 32s32-14.3 32-32c0-53 43-96 96-96l160 0 0 32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9S320 19.1 320 32l0 32L160 64C71.6 64 0 135.6 0 224zm512 64c0-17.7-14.3-32-32-32s-32 14.3-32 32c0 53-43 96-96 96l-160 0 0-32c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6l0-32 160 0c88.4 0 160-71.6 160-160z"/></svg>`;
+    div.append(switchButton);
+
+    switchButton.addEventListener('click', function (e) {
+        e.stopPropagation();
+        selectedPlayersPlaceholders.forEach(item => {
+            if (element != item && item.getAttribute('data-position') === element.getAttribute('data-position')) {
+                item.classList.add('possible-position');
+            } else {
+                item.classList.add('blocked-position');
+            }
+            currentPlayerCard = element;
+            switchCards = true;
+        })
+    })
+
+    element.append(div);
+    
 }
 
 let menu = document.getElementById('menu') as HTMLElement;
@@ -287,7 +347,6 @@ modal.querySelector('.add-player')?.addEventListener('click', function () {
         club_logo: "/assets/API/imgs/club/" + (inputs[13] as HTMLInputElement).value.replace("C:\\fakepath\\", ''),
     }
 
-
     addPlayerCard(data);
     modal.style.display = 'none';
 });
@@ -302,3 +361,14 @@ inputs.forEach((item, index) => {
         }
     })
 })
+
+//-------------------------------
+// *** Reset Cards
+//-------------------------------
+
+
+function resetCards() {
+    selectedPlayersPlaceholders.forEach(item => {
+        item.classList.remove('active', 'possible-position', 'blocked-position')
+    });
+}
