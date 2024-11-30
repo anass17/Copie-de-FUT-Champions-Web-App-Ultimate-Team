@@ -21,6 +21,9 @@
     &.selected {
         filter: drop-shadow(0px 0px 5px orangered);
     }
+    &.already-selected {
+        display: none;
+    }
 
     .card-header {
         height: 5.6em;

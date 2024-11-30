@@ -87,6 +87,7 @@ function showRelevantPlayers() {
         }
         else {
             this.innerHTML = currentPlayerCard.innerHTML;
+            currentPlayerCard.classList.add('already-selected');
             this.classList.remove('active');
         }
         currentPlayerCard = null;
@@ -118,6 +119,7 @@ function addPlayerToStadium() {
         currentPlayerPlaceholder === null || currentPlayerPlaceholder === void 0 ? void 0 : currentPlayerPlaceholder.classList.remove('active');
         currentPlayerPlaceholder.innerHTML = this.innerHTML;
         currentPlayerPlaceholder = null;
+        this.classList.add('already-selected');
         showAllPlayers();
     }
     else if (!this.classList.contains('selected')) {
@@ -175,6 +177,9 @@ searchInput === null || searchInput === void 0 ? void 0 : searchInput.addEventLi
         }
     });
 });
+//---------------------------------
+// *** Add Options
+//---------------------------------
 function addOptions(element) {
     let div = document.createElement('div');
     div.className = "card-options";
@@ -306,3 +311,24 @@ function resetCards() {
         item.classList.remove('active', 'possible-position', 'blocked-position');
     });
 }
+//------------------------------------
+// *** Formation
+//------------------------------------
+let formationSelect = document.getElementById('formation-select');
+formationSelect.addEventListener('change', function () {
+    let positions = this.value.split('-');
+    selectedPlayersPlaceholders.forEach((card, index) => {
+        let cardHTML = card.parentElement;
+        cardHTML.className = "selected-player-container " + positions[index];
+        if (card.getAttribute('data-position') != positions[index].replace(/[0-9]/, "") && !card.querySelector('.plus')) {
+            card.classList.add('misplaced');
+        }
+        else {
+            card.classList.remove('misplaced');
+        }
+        card.setAttribute('data-position', positions[index].replace(/[0-9]/, ""));
+        if (!card.classList.contains('player-card')) {
+            card.querySelector('.role').textContent = positions[index].replace(/[0-9]/, "");
+        }
+    });
+});

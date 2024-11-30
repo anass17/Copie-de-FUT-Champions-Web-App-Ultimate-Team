@@ -38,6 +38,10 @@
             filter: drop-shadow(0 0 15px yellow);
         }
 
+        &.misplaced {
+            filter: drop-shadow(0 0 15px red);
+        }
+
         &.possible-position {
             opacity: .8;
             transform: scale(2);
@@ -61,62 +65,6 @@
             font-size: 5em;
             transform: translateY(-10px);
         }
-    }
-
-    .selected-player-container.GK {
-        bottom: 0;
-        right: 50%;
-        transform: translateX(50%) scale(0.6);
-    }
-    .selected-player-container.LB {
-        bottom: 210px;
-        right: 54.3em;
-        transform: scale(0.55);
-    }
-    .selected-player-container.CB1 {
-        bottom: 150px;
-        right: 42.4em;
-        transform: scale(0.55);
-    }
-    .selected-player-container.CB2 {
-        bottom: 150px;
-        right: 15.625em;
-        transform: scale(0.55);
-    }
-    .selected-player-container.RB {
-        bottom: 210px;
-        right: 3.75em;
-        transform: scale(0.55);
-    }
-    .selected-player-container.LM {
-        bottom: 415px;
-        right: 48.2em;
-        transform: scale(0.5);
-    }
-    .selected-player-container.CM1 {
-        bottom: 360px;
-        right: 35em;
-        transform: scale(0.5);
-    }
-    .selected-player-container.CM2 {
-        bottom: 360px;
-        right: 23em;
-        transform: scale(0.5);
-    }
-    .selected-player-container.RM {
-        bottom: 415px;
-        right: 9.8125em;
-        transform: scale(0.5);
-    }
-    .selected-player-container.ST1 {
-        bottom: 515px;
-        right: 21em;
-        transform: scale(0.4);
-    }
-    .selected-player-container.ST2 {
-        bottom: 515px;
-        right: 37em;
-        transform: scale(0.4);
     }
 }
 

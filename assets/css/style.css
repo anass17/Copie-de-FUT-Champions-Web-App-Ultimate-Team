@@ -63,6 +63,9 @@ h1 {
 .player-card.selected {
   filter: drop-shadow(0px 0px 5px orangered);
 }
+.player-card.already-selected {
+  display: none;
+}
 .player-card .card-header {
   height: 5.6em;
   align-items: center;
@@ -224,6 +227,9 @@ h1 {
   opacity: 1;
   filter: drop-shadow(0 0 15px yellow);
 }
+.stadium .selected-player.misplaced {
+  filter: drop-shadow(0 0 15px red);
+}
 .stadium .selected-player.possible-position {
   opacity: 0.8;
   transform: scale(2);
@@ -244,61 +250,6 @@ h1 {
 .stadium .selected-player .plus {
   font-size: 5em;
   transform: translateY(-10px);
-}
-.stadium .selected-player-container.GK {
-  bottom: 0;
-  right: 50%;
-  transform: translateX(50%) scale(0.6);
-}
-.stadium .selected-player-container.LB {
-  bottom: 210px;
-  right: 54.3em;
-  transform: scale(0.55);
-}
-.stadium .selected-player-container.CB1 {
-  bottom: 150px;
-  right: 42.4em;
-  transform: scale(0.55);
-}
-.stadium .selected-player-container.CB2 {
-  bottom: 150px;
-  right: 15.625em;
-  transform: scale(0.55);
-}
-.stadium .selected-player-container.RB {
-  bottom: 210px;
-  right: 3.75em;
-  transform: scale(0.55);
-}
-.stadium .selected-player-container.LM {
-  bottom: 415px;
-  right: 48.2em;
-  transform: scale(0.5);
-}
-.stadium .selected-player-container.CM1 {
-  bottom: 360px;
-  right: 35em;
-  transform: scale(0.5);
-}
-.stadium .selected-player-container.CM2 {
-  bottom: 360px;
-  right: 23em;
-  transform: scale(0.5);
-}
-.stadium .selected-player-container.RM {
-  bottom: 415px;
-  right: 9.8125em;
-  transform: scale(0.5);
-}
-.stadium .selected-player-container.ST1 {
-  bottom: 515px;
-  right: 21em;
-  transform: scale(0.4);
-}
-.stadium .selected-player-container.ST2 {
-  bottom: 515px;
-  right: 37em;
-  transform: scale(0.4);
 }
 
 .menu {
@@ -512,6 +463,142 @@ h1 {
   color: #FFF;
   font-weight: bold;
   letter-spacing: 1.15px;
+}
+
+.stadium .selected-player-container.GK {
+  bottom: 0;
+  right: 50%;
+  transform: translateX(50%) scale(0.6);
+}
+.stadium .selected-player-container.LB {
+  bottom: 210px;
+  right: 54.3em;
+  transform: scale(0.55);
+}
+.stadium .selected-player-container.CB1 {
+  bottom: 150px;
+  right: 42.4em;
+  transform: scale(0.55);
+}
+.stadium .selected-player-container.CB2 {
+  bottom: 150px;
+  right: 15.625em;
+  transform: scale(0.55);
+}
+.stadium .selected-player-container.RB {
+  bottom: 210px;
+  right: 3.75em;
+  transform: scale(0.55);
+}
+.stadium .selected-player-container.LM {
+  bottom: 415px;
+  right: 48.2em;
+  transform: scale(0.5);
+}
+.stadium .selected-player-container.CDM {
+  bottom: 320px;
+  right: 29em;
+  transform: scale(0.5);
+}
+.stadium .selected-player-container.CM1 {
+  bottom: 360px;
+  right: 35em;
+  transform: scale(0.5);
+}
+.stadium .selected-player-container.CM2 {
+  bottom: 360px;
+  right: 23em;
+  transform: scale(0.5);
+}
+.stadium .selected-player-container.CM3 {
+  bottom: 360px;
+  right: 45em;
+  transform: scale(0.5);
+}
+.stadium .selected-player-container.CM4 {
+  bottom: 360px;
+  right: 13em;
+  transform: scale(0.5);
+}
+.stadium .selected-player-container.RM {
+  bottom: 415px;
+  right: 9.8125em;
+  transform: scale(0.5);
+}
+.stadium .selected-player-container.ST {
+  bottom: 515px;
+  right: 29em;
+  transform: scale(0.4);
+}
+.stadium .selected-player-container.LW {
+  bottom: 481px;
+  right: 40em;
+  transform: scale(0.4);
+}
+.stadium .selected-player-container.RW {
+  bottom: 481px;
+  right: 18em;
+  transform: scale(0.4);
+}
+.stadium .selected-player-container.ST1 {
+  bottom: 515px;
+  right: 21em;
+  transform: scale(0.4);
+}
+.stadium .selected-player-container.ST2 {
+  bottom: 515px;
+  right: 37em;
+  transform: scale(0.4);
+}
+.stadium .selected-player-container.CF {
+  bottom: 520px;
+  right: 29em;
+  transform: scale(0.35);
+}
+.stadium .selected-player-container.CAM {
+  bottom: 400px;
+  right: 29em;
+  transform: scale(0.4);
+}
+.stadium .selected-player-container.CM5 {
+  bottom: 290px;
+  right: 35em;
+  transform: scale(0.45);
+}
+.stadium .selected-player-container.CM6 {
+  bottom: 290px;
+  right: 23em;
+  transform: scale(0.45);
+}
+.stadium .selected-player-container.RW1 {
+  bottom: 465px;
+  right: 18em;
+  transform: scale(0.4);
+}
+.stadium .selected-player-container.LW1 {
+  bottom: 465px;
+  right: 40em;
+  transform: scale(0.4);
+}
+.stadium .selected-player-container.CAM1 {
+  bottom: 445px;
+  right: 29em;
+  transform: scale(0.4);
+}
+.stadium .selected-player-container.CDM1 {
+  bottom: 300px;
+  right: 29em;
+  transform: scale(0.5);
+}
+.stadium .selected-player-container.CB {
+  bottom: 175px;
+  right: 29em;
+  transform: scale(0.55);
+}
+.stadium .selected-player-container.CDM2 {
+  bottom: 370px;
+  right: 29em;
+  transform: scale(0.5);
 }
 
 @keyframes bounce {
