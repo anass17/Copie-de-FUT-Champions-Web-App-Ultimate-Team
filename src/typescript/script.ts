@@ -1,4 +1,4 @@
-const url : string = '/assets/API/players.json';
+const url : string = 'assets/API/players.json';
 let playersList = document.getElementById('players-list') as HTMLDivElement;
 let playersCount = 0;
 let switchCards = false;
@@ -67,6 +67,23 @@ formationSelect.value = localStorage.getItem('formation') as string;
     }
 });
 
+let fetchSuccess = (data: Players) => {
+    for (let player of data.players) {
+        if (localStadium.includes(player.id)) {
+            updateContent(selectedPlayersPlaceholders[localStadium.indexOf(player.id)], player);
+            addPlayerCard(player, true);
+        } else {
+            addPlayerCard(player, false);
+        }
+    }
+    // playersCount = data.players.length;
+
+    // LocalStorage
+
+    localPlayersList = data.players;
+    localStorage.setItem('players', JSON.stringify(localPlayersList));
+}
+
 //------------------------------------------------
 // *** Store/Retrieve Players from LocalStorage
 //------------------------------------------------
@@ -76,23 +93,12 @@ let localPlayersList : PlayersData[];
 if (!localStorage.getItem('players')) {
     fetch(url)
     .then(response => response.json())
-    .then((data : Players) => {
-        for (let player of data.players) {
-            if (localStadium.includes(player.id)) {
-                updateContent(selectedPlayersPlaceholders[localStadium.indexOf(player.id)], player);
-                addPlayerCard(player, true);
-            } else {
-                addPlayerCard(player, false);
-            }
-        }
-        // playersCount = data.players.length;
-
-        // LocalStorage
-
-        localPlayersList = data.players;
-        localStorage.setItem('players', JSON.stringify(localPlayersList));
+    .then(fetchSuccess)
+	.catch(function () {
+        fetch('Copie-de-FUT-Champions-Web-App-Ultimate-Team' + url)     // BackUp for GitHub Project
+        .then(response => response.json())
+        .then(fetchSuccess).catch(error => console.log(error))
     })
-	.catch(error => console.log(error))
 } else {
     localPlayersList = JSON.parse(localStorage.getItem('players') as string);
 
