@@ -20,8 +20,14 @@
 
     &.selected {
         filter: drop-shadow(0px 0px 5px orangered);
+
+        .delete-btn,
+        .modify-btn {
+            display: block;
+        }
     }
-    &.already-selected {
+    &.already-selected,
+    &.filtered {
         display: none;
     }
 
@@ -110,7 +116,24 @@
     }
     .switch-option svg {
         width: .9em;
-        fill: #FFF;
+        fill: #fceeee;
+    }
+    .delete-btn,
+    .modify-btn {
+        position: absolute;
+        top: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #FFF;
+        padding-top: 3px;
+        display: none;
+    }
+    .delete-btn {
+        left: 0;
+    }
+    .modify-btn {
+        right: 0;
     }
 }
 

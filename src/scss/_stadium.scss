@@ -74,6 +74,10 @@
     top: 30px;
 }
 
+.menu.delayed > button {
+    animation-delay: .5s !important;
+}
+
 .menu button {
     border: 1px solid #FFF;
     display: flex;
@@ -195,13 +199,79 @@
 
 .menu .formation-options {
     position: absolute;
-    top: -20px;
+    top: -14px;
     left: 120px;
-    padding: 6px;
-
+    width: 100px;
+    background-color: #FFF;
+    border-radius: 5px;
+    height: 30px;
+    width: 30px;
+    transform-origin: -10px 25px;
+    opacity: 0;
+    transform: rotate(-143deg) scale(0.3);
+    overflow: hidden;
+    
     select {
+        // opacity: 0;
         padding: 8px;
         border-radius: 5px;
-        width: 100px;
+        width: 100%;
+    }
+}
+
+.menu .formation-options.open {
+    animation: openSelect 1s ease backwards;
+    width: 100px;
+    border-radius: 5px;
+    transform: rotate(0) scale(1);
+    opacity: 1;
+}
+
+.menu .formation-options.closed {
+    animation: openSelectReverse .5s linear backwards;
+    width: 30px;
+    height: 30px;
+    transform: rotate(-143deg) scale(0.3);
+    opacity: 0;
+}
+
+.alert {
+    position: fixed;
+    top: 25px;
+    background: #EEE;
+    padding: 20px 30px;
+    border-radius: 7px;
+    left: 50%;
+    max-width: 400px;
+    width: 100%;
+    transform: translateX(-50%);
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, .5);
+    animation: showAlert .5s ease-in-out backwards;
+}
+
+.alert.hide {
+    animation: showAlertReverse .5s ease-in-out backwards;
+    transform: translateX(-50%) translateY(-150%);
+}
+
+.alert h4 {
+    margin-bottom: 10px;
+}
+
+@keyframes showAlert {
+    0% {
+        transform: translateX(-50%) translateY(-150%);
+    }
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+}
+@keyframes showAlertReverse {
+    0% {
+        transform: translateX(-50%) translateY(0);
+    }
+    100% {
+        transform: translateX(-50%) translateY(-150%);
     }
 }

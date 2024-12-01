@@ -1,28 +1,109 @@
 "use strict";
-var _a, _b, _c, _d;
+var _a, _b, _c, _d, _e;
 const url = '/assets/API/players.json';
 let playersList = document.getElementById('players-list');
 let playersCount = 0;
 let switchCards = false;
-playersList.innerHTML = '';
-fetch(url)
-    .then(response => response.json())
-    .then((data) => {
-    for (let player of data.players) {
-        addPlayerCard(player);
-    }
-    playersCount = data.players.length;
-})
-    .catch(error => console.log(error));
+let localStadium = [];
+let localStadiumClasses = [];
 let selectedPlayersPlaceholders = document.querySelectorAll('.selected-player');
 let currentPlayerPlaceholder = null;
 let currentPlayerCard = null;
+let formationSelect = document.getElementById('formation-select');
+// playersList.innerHTML = '';
+let localST = localStorage.getItem('stadium');
+if (!localST) {
+    localStadium = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    localStadiumClasses = ["GK", "LB", "CB1", "CB2", "RB", "LM", "CM1", "CM2", "RM", "ST1", "ST2"];
+    localStorage.setItem('stadium', JSON.stringify(localStadium));
+    localStorage.setItem('stadium-classes', JSON.stringify(localStadiumClasses));
+    localStorage.setItem('formation', 'GK-LB-CB1-CB2-RB-LM-CM1-CM2-RM-ST1-ST2');
+}
+else {
+    localStadium = JSON.parse(localST);
+    localStadiumClasses = JSON.parse(localStorage.getItem('stadium-classes'));
+}
+formationSelect.value = localStorage.getItem('formation');
+[...selectedPlayersPlaceholders].forEach((item, index) => {
+    item.parentElement.className = `selected-player-container ${localStadiumClasses[index]}`;
+    item.dataset.position = localStadiumClasses[index].replace(/[0-9]/, "");
+    try {
+        item.querySelector('.role').textContent = localStadiumClasses[index].replace(/[0-9]/, "");
+    }
+    catch (_a) {
+    }
+});
+//------------------------------------------------
+// *** Store/Retrieve Players from LocalStorage
+//------------------------------------------------
+let localPlayersList;
+if (!localStorage.getItem('players')) {
+    fetch(url)
+        .then(response => response.json())
+        .then((data) => {
+        for (let player of data.players) {
+            if (localStadium.includes(player.id)) {
+                updateContent(selectedPlayersPlaceholders[localStadium.indexOf(player.id)], player);
+                addPlayerCard(player, true);
+            }
+            else {
+                addPlayerCard(player, false);
+            }
+        }
+        playersCount = data.players.length;
+        // LocalStorage
+        localPlayersList = data.players;
+        localStorage.setItem('players', JSON.stringify(localPlayersList));
+    })
+        .catch(error => console.log(error));
+}
+else {
+    localPlayersList = JSON.parse(localStorage.getItem('players'));
+    for (let player of localPlayersList) {
+        if (localStadium.includes(player.id)) {
+            updateContent(selectedPlayersPlaceholders[localStadium.indexOf(player.id)], player);
+            addPlayerCard(player, true);
+        }
+        else {
+            addPlayerCard(player, false);
+        }
+    }
+    playersCount = localPlayersList.length;
+}
 selectedPlayersPlaceholders.forEach((item) => {
     item.addEventListener('click', showRelevantPlayers);
 });
-function addPlayerCard(player) {
+function updateContent(element, player) {
+    element.classList.add('player-card');
+    element.dataset.available = player.position.join('-');
+    element.dataset.id = `${player.id}`;
+    element.innerHTML = `<div class="card-header">
+        <h3 class="player-position">${player.position[0]}</h3>
+        <div>
+            <img class="player-image" src="${player.player_image || `assets/API/imgs/players/${player.name}.png`}" alt="">
+        </div>
+        <div>
+            <b class="player-rating">${player.overall_rating}</b>
+        </div>
+    </div>
+    <h3 class="player-name">${player.name}</h3>
+    <div class="player-info">
+        <span>Age: ${player.age}</span>
+        <span>N.: ${player.player_number}</span>
+    </div>
+    <h4 class="player-ligue">${player.league}</h4>
+    <div class="player-assets">
+        <img src="${player.nation_icon}" alt="" class="player-flag">
+        <img src="${player.club_logo}" alt="" class="player-club">
+    </div>`;
+}
+function addPlayerCard(player, hidden) {
     let div = document.createElement('div');
     div.className = "player-card";
+    if (hidden == true) {
+        div.classList.add('already-selected');
+    }
+    div.dataset.id = `${player.id}`;
     div.dataset.position = player.position.join('-');
     div.addEventListener('click', addPlayerToStadium);
     div.innerHTML = `<div class="card-header">
@@ -43,8 +124,24 @@ function addPlayerCard(player) {
     <div class="player-assets">
         <img src="${player.nation_icon}" alt="" class="player-flag">
         <img src="${player.club_logo}" alt="" class="player-club">
-    </div>`;
+    </div>
+    <button class="delete-btn" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="15" hidden="15" fill="red"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M170.5 51.6L151.5 80l145 0-19-28.4c-1.5-2.2-4-3.6-6.7-3.6l-93.7 0c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80 368 80l48 0 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-8 0 0 304c0 44.2-35.8 80-80 80l-224 0c-44.2 0-80-35.8-80-80l0-304-8 0c-13.3 0-24-10.7-24-24S10.7 80 24 80l8 0 48 0 13.8 0 36.7-55.1C140.9 9.4 158.4 0 177.1 0l93.7 0c18.7 0 36.2 9.4 46.6 24.9zM80 128l0 304c0 17.7 14.3 32 32 32l224 0c17.7 0 32-14.3 32-32l0-304L80 128zm80 64l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16z"/></svg></button>
+    <button class="modify-btn" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="15" hidden="15" fill="#555"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1 0 32c0 8.8 7.2 16 16 16l32 0zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg></button>`;
     playersList.append(div);
+}
+function createAlert(alertTitle, alertDesc) {
+    let alert = document.createElement('div');
+    alert.className = "alert";
+    alert.innerHTML = `<h4>${alertTitle}</h4>
+    <p>${alertDesc}</p>`;
+    document.body.append(alert);
+    setTimeout(() => {
+        alert.className = "alert hide";
+    }, 3000);
+}
+function updatePlayerLocalStorage(id) {
+    localPlayersList = localPlayersList.filter(player => player.id != id);
+    localStorage.setItem('players', JSON.stringify(localPlayersList));
 }
 function showRelevantPlayers() {
     var _a, _b, _c, _d, _e, _f;
@@ -72,14 +169,13 @@ function showRelevantPlayers() {
             let intermediate = (_c = currentPlayerCard.parentElement) === null || _c === void 0 ? void 0 : _c.className;
             cParent.className = (_d = this.parentElement) === null || _d === void 0 ? void 0 : _d.className;
             tParent.className = intermediate;
-            // this.classList.remove('active', 'possible-position');
-            // this.classList.add('player-card');
-            // this?.querySelector('.card-options')?.remove();
-            // currentPlayerCard.classList.remove('active', 'possible-position');
-            // currentPlayerCard.classList.add('player-card');
             (_e = currentPlayerPlaceholder === null || currentPlayerPlaceholder === void 0 ? void 0 : currentPlayerPlaceholder.querySelector('.card-options')) === null || _e === void 0 ? void 0 : _e.remove();
+            if (this.querySelector('.role')) {
+                this.classList.remove('player-card');
+            }
             currentPlayerPlaceholder = null;
             currentPlayerCard = null;
+            updateLocalStorage();
             showAllPlayers();
             resetCards();
             switchCards = false;
@@ -87,6 +183,9 @@ function showRelevantPlayers() {
         }
         else {
             this.innerHTML = currentPlayerCard.innerHTML;
+            this.setAttribute('data-available', currentPlayerCard.getAttribute('data-position'));
+            this.dataset.id = currentPlayerCard.dataset.id;
+            updateLocalStorage();
             currentPlayerCard.classList.add('already-selected');
             this.classList.remove('active');
         }
@@ -105,19 +204,30 @@ function showRelevantPlayers() {
         var _a;
         const element = item;
         if (((_a = item.getAttribute('data-position')) === null || _a === void 0 ? void 0 : _a.search(position)) >= 0) {
+            element.classList.remove('filtered');
             element.style.display = "";
         }
         else {
+            element.classList.add('filtered');
             element.style.display = "none";
         }
     });
 }
 function addPlayerToStadium() {
+    var _a;
     switchCards = false;
     if (currentPlayerPlaceholder != null) {
+        try {
+            (_a = [...playersList.querySelectorAll(`.player-name`)].filter(name => { var _a; return name.textContent == ((_a = currentPlayerPlaceholder.querySelector('.player-name')) === null || _a === void 0 ? void 0 : _a.textContent); })[0].closest('.player-card')) === null || _a === void 0 ? void 0 : _a.classList.remove('already-selected');
+        }
+        catch (_b) {
+        }
         currentPlayerPlaceholder === null || currentPlayerPlaceholder === void 0 ? void 0 : currentPlayerPlaceholder.classList.add('player-card');
         currentPlayerPlaceholder === null || currentPlayerPlaceholder === void 0 ? void 0 : currentPlayerPlaceholder.classList.remove('active');
         currentPlayerPlaceholder.innerHTML = this.innerHTML;
+        currentPlayerPlaceholder.setAttribute('data-available', this.getAttribute('data-position'));
+        currentPlayerPlaceholder.dataset.id = this.dataset.id;
+        updateLocalStorage();
         currentPlayerPlaceholder = null;
         this.classList.add('already-selected');
         showAllPlayers();
@@ -137,6 +247,7 @@ function addPlayerToStadium() {
 function showAllPlayers() {
     playersList.querySelectorAll('.player-card').forEach((item) => {
         const element = item;
+        element.classList.remove('filtered');
         element.style.display = "";
     });
 }
@@ -169,8 +280,8 @@ searchInput === null || searchInput === void 0 ? void 0 : searchInput.addEventLi
     playersList.querySelectorAll('.player-card').forEach((item) => {
         var _a;
         const element = item;
-        if ((((_a = item.querySelector('.player-name')) === null || _a === void 0 ? void 0 : _a.textContent).toLocaleLowerCase().search(this.value.toLocaleLowerCase()) >= 0)) {
-            element.style.display = "flex";
+        if ((((_a = item.querySelector('.player-name')) === null || _a === void 0 ? void 0 : _a.textContent).toLocaleLowerCase().search(this.value.toLocaleLowerCase()) >= 0) && !element.classList.contains('filtered')) {
+            element.style.display = "";
         }
         else {
             element.style.display = "none";
@@ -188,12 +299,18 @@ function addOptions(element) {
     deleteButton.textContent = "X";
     div.append(deleteButton);
     deleteButton.addEventListener('click', function (e) {
+        var _a, _b;
         e.stopPropagation();
+        let playerName = (_a = element.querySelector('.player-name')) === null || _a === void 0 ? void 0 : _a.textContent;
+        (_b = [...playersList.querySelectorAll(`.player-name`)].filter(name => name.textContent == playerName)[0].closest('.player-card')) === null || _b === void 0 ? void 0 : _b.classList.remove('already-selected');
         element.innerHTML =
             `<b class="role">${element.getAttribute('data-position')}</b>
             <span class="plus">+</span>`;
+        element.setAttribute('data-available', "");
+        element.setAttribute('data-id', "");
         element.classList.remove('player-card', 'active');
         currentPlayerPlaceholder = null;
+        updateLocalStorage();
         showAllPlayers();
     });
     let switchButton = document.createElement('button');
@@ -204,7 +321,9 @@ function addOptions(element) {
     switchButton.addEventListener('click', function (e) {
         e.stopPropagation();
         selectedPlayersPlaceholders.forEach(item => {
-            if (element != item && item.getAttribute('data-position') === element.getAttribute('data-position')) {
+            var _a;
+            let attr = item.getAttribute('data-position');
+            if (element != item && ((_a = element.getAttribute('data-available')) === null || _a === void 0 ? void 0 : _a.search(attr)) >= 0) {
                 item.classList.add('possible-position');
             }
             else {
@@ -220,9 +339,18 @@ let menu = document.getElementById('menu');
 (_a = menu === null || menu === void 0 ? void 0 : menu.firstElementChild) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function () {
     if (!menu.classList.contains('open')) {
         menu.classList.add('open');
-        menu.classList.remove('closed');
+        menu.classList.remove('closed', 'delayed');
     }
     else {
+        let options = document.querySelector('.formation-options');
+        let formationIcon = document.querySelector('.formation-icon');
+        if (options.classList.contains("open")) {
+            options.classList.remove('open');
+            options.classList.add('closed');
+            formationIcon.style.background = "";
+            formationIcon.firstElementChild.style.fill = "";
+            menu.classList.add('delayed');
+        }
         menu.classList.remove('open');
         menu.classList.add('closed');
     }
@@ -230,13 +358,41 @@ let menu = document.getElementById('menu');
 (_b = menu.querySelector('.pen-icon')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', function () {
     modal.style.display = "flex";
 });
+(_c = menu.querySelector('.formation-icon')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', function () {
+    let options = document.querySelector('.formation-options');
+    if (!options.classList.contains('open')) {
+        options.classList.add('open');
+        options.classList.remove('closed');
+        this.style.backgroundColor = "#FFF";
+        this.firstElementChild.style.fill = "#333";
+    }
+    else {
+        options.classList.remove('open');
+        options.classList.add('closed');
+        this.style.backgroundColor = "";
+        this.firstElementChild.style.fill = "";
+    }
+});
+//-----------------------------------------
+// *** Update localStorage
+//-----------------------------------------
+function updateLocalStorage() {
+    selectedPlayersPlaceholders.forEach((item, idx) => {
+        let itemHTML = item;
+        localStadium[idx] = +(itemHTML.dataset.id || "");
+        localStadiumClasses[idx] = itemHTML.parentElement.className.replace("selected-player-container ", "");
+    });
+    localStorage.setItem('stadium', JSON.stringify(localStadium));
+    localStorage.setItem('stadium-classes', JSON.stringify(localStadiumClasses));
+    console.log(localStadiumClasses);
+}
 //-----------------------------------------
 // *** Modal: Add players
 //-----------------------------------------
 let modal = document.getElementById('modal-container');
 let inputs = modal.querySelectorAll('input, select');
 let validRegExp = [
-    /^[a-z A-Z]+$/,
+    /^[a-zA-Z][a-z A-Z]*$/,
     /^[1-5][0-9]$/,
     /^[1-9][0-9]?$/,
     /^[1-9][0-9]?$/,
@@ -251,10 +407,10 @@ let validRegExp = [
     /\.(png|jpg|jpeg|webp)$/,
     /\.(png|jpg|jpeg|webp)$/,
 ];
-(_c = modal === null || modal === void 0 ? void 0 : modal.querySelector('.close-btn')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', function () {
+(_d = modal === null || modal === void 0 ? void 0 : modal.querySelector('.close-btn')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', function () {
     modal.style.display = 'none';
 });
-(_d = modal.querySelector('.add-player')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', function () {
+(_e = modal.querySelector('.add-player')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', function () {
     let errors = false;
     for (let i = 0; i < inputs.length; i++) {
         let itemHTML = inputs[i];
@@ -289,7 +445,7 @@ let validRegExp = [
         player_image: "/assets/API/imgs/players/" + inputs[12].value.replace("C:\\fakepath\\", ''),
         club_logo: "/assets/API/imgs/club/" + inputs[13].value.replace("C:\\fakepath\\", ''),
     };
-    addPlayerCard(data);
+    addPlayerCard(data, false);
     modal.style.display = 'none';
 });
 inputs.forEach((item, index) => {
@@ -314,13 +470,13 @@ function resetCards() {
 //------------------------------------
 // *** Formation
 //------------------------------------
-let formationSelect = document.getElementById('formation-select');
 formationSelect.addEventListener('change', function () {
     let positions = this.value.split('-');
     selectedPlayersPlaceholders.forEach((card, index) => {
+        var _a;
         let cardHTML = card.parentElement;
         cardHTML.className = "selected-player-container " + positions[index];
-        if (card.getAttribute('data-position') != positions[index].replace(/[0-9]/, "") && !card.querySelector('.plus')) {
+        if (((_a = card.getAttribute('data-available')) === null || _a === void 0 ? void 0 : _a.search(positions[index].replace(/[0-9]/, ""))) < 0 && !card.querySelector('.plus')) {
             card.classList.add('misplaced');
         }
         else {
@@ -331,4 +487,6 @@ formationSelect.addEventListener('change', function () {
             card.querySelector('.role').textContent = positions[index].replace(/[0-9]/, "");
         }
     });
+    localStorage.setItem('formation', this.value);
+    updateLocalStorage();
 });

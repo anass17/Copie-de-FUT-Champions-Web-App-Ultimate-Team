@@ -63,7 +63,11 @@ h1 {
 .player-card.selected {
   filter: drop-shadow(0px 0px 5px orangered);
 }
-.player-card.already-selected {
+.player-card.selected .delete-btn,
+.player-card.selected .modify-btn {
+  display: block;
+}
+.player-card.already-selected, .player-card.filtered {
   display: none;
 }
 .player-card .card-header {
@@ -151,7 +155,24 @@ h1 {
 }
 .player-card .switch-option svg {
   width: 0.9em;
-  fill: #FFF;
+  fill: #fceeee;
+}
+.player-card .delete-btn,
+.player-card .modify-btn {
+  position: absolute;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #FFF;
+  padding-top: 3px;
+  display: none;
+}
+.player-card .delete-btn {
+  left: 0;
+}
+.player-card .modify-btn {
+  right: 0;
 }
 
 .players-section {
@@ -256,6 +277,10 @@ h1 {
   position: absolute;
   left: 30px;
   top: 30px;
+}
+
+.menu.delayed > button {
+  animation-delay: 0.5s !important;
 }
 
 .menu button {
@@ -379,16 +404,80 @@ h1 {
 
 .menu .formation-options {
   position: absolute;
-  top: -20px;
+  top: -14px;
   left: 120px;
-  padding: 6px;
+  width: 100px;
+  background-color: #FFF;
+  border-radius: 5px;
+  height: 30px;
+  width: 30px;
+  transform-origin: -10px 25px;
+  opacity: 0;
+  transform: rotate(-143deg) scale(0.3);
+  overflow: hidden;
 }
 .menu .formation-options select {
   padding: 8px;
   border-radius: 5px;
-  width: 100px;
+  width: 100%;
 }
 
+.menu .formation-options.open {
+  animation: openSelect 1s ease backwards;
+  width: 100px;
+  border-radius: 5px;
+  transform: rotate(0) scale(1);
+  opacity: 1;
+}
+
+.menu .formation-options.closed {
+  animation: openSelectReverse 0.5s linear backwards;
+  width: 30px;
+  height: 30px;
+  transform: rotate(-143deg) scale(0.3);
+  opacity: 0;
+}
+
+.alert {
+  position: fixed;
+  top: 25px;
+  background: #EEE;
+  padding: 20px 30px;
+  border-radius: 7px;
+  left: 50%;
+  max-width: 400px;
+  width: 100%;
+  transform: translateX(-50%);
+  text-align: center;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  animation: showAlert 0.5s ease-in-out backwards;
+}
+
+.alert.hide {
+  animation: showAlertReverse 0.5s ease-in-out backwards;
+  transform: translateX(-50%) translateY(-150%);
+}
+
+.alert h4 {
+  margin-bottom: 10px;
+}
+
+@keyframes showAlert {
+  0% {
+    transform: translateX(-50%) translateY(-150%);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+@keyframes showAlertReverse {
+  0% {
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-150%);
+  }
+}
 .modal-container {
   backdrop-filter: blur(2px);
   background-color: rgba(0, 0, 0, 0.6);
@@ -688,6 +777,46 @@ h1 {
     visibility: hidden;
     opacity: 0;
     transform: rotate(20deg) scale(0);
+  }
+}
+@keyframes openSelect {
+  0% {
+    transform: rotate(-143deg) scale(0.3);
+    opacity: 0;
+    width: 30px;
+    height: 30px;
+  }
+  50% {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+    width: 30px;
+    height: 30px;
+  }
+  100% {
+    width: 100px;
+    border-radius: 5px;
+    height: 30px;
+  }
+}
+@keyframes openSelectReverse {
+  0% {
+    width: 100px;
+    border-radius: 5px;
+    height: 30px;
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+  50% {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+    width: 30px;
+    height: 30px;
+  }
+  100% {
+    transform: rotate(-143deg) scale(0.3);
+    opacity: 0;
+    width: 30px;
+    height: 30px;
   }
 }
 
