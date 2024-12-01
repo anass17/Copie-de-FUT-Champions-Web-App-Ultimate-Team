@@ -11,7 +11,13 @@
       "nation_icon": "/assets/API/imgs/flags/argentina.png",
       "club_logo": "/assets/API/imgs/club/psg.png",
       "age": 37,
-      "player_number": 30
+      "player_number": 30,
+      "Pace": 85,
+      "Shooting": 88,
+      "Passing": 92,
+      "Dribbling": 95,
+      "Defending": 38,
+      "Physical": 68
     },
     {
       "id": 2,
@@ -24,7 +30,13 @@
       "nation_icon": "/assets/API/imgs/flags/portugal.webp",
       "club_logo": "/assets/API/imgs/club/manchester_united.png",
       "age": 39,
-      "player_number": 7
+      "player_number": 7,
+      "Pace": 83,
+      "Shooting": 92,
+      "Passing": 78,
+      "Dribbling": 85,
+      "Defending": 40,
+      "Physical": 80
     },
     {
       "id": 3,
@@ -37,7 +49,13 @@
       "nation_icon": "/assets/API/imgs/flags/france.png",
       "club_logo": "/assets/API/imgs/club/psg.png",
       "age": 25,
-      "player_number": 7
+      "player_number": 7,
+      "Pace": 97,
+      "Shooting": 87,
+      "Passing": 84,
+      "Dribbling": 92,
+      "Defending": 38,
+      "Physical": 74
     },
     {
       "id": 4,
@@ -50,7 +68,13 @@
       "nation_icon": "/assets/API/imgs/flags/brazil.png",
       "club_logo": "/assets/API/imgs/club/psg.png",
       "age": 32,
-      "player_number": 11
+      "player_number": 11,
+      "Pace": 88,
+      "Shooting": 83,
+      "Passing": 88,
+      "Dribbling": 93,
+      "Defending": 40,
+      "Physical": 69
     },
     {
       "id": 5,
@@ -63,7 +87,13 @@
       "nation_icon": "/assets/API/imgs/flags/netherlands.png",
       "club_logo": "/assets/API/imgs/club/liverpool.png",
       "age": 33,
-      "player_number": 4
+      "player_number": 4,
+      "Pace": 70,
+      "Shooting": 60,
+      "Passing": 75,
+      "Dribbling": 72,
+      "Defending": 91,
+      "Physical": 88
     },
     {
       "id": 6,
@@ -76,7 +106,13 @@
       "nation_icon": "/assets/API/imgs/flags/egypt.png",
       "club_logo": "/assets/API/imgs/club/liverpool.png",
       "age": 32,
-      "player_number": 11
+      "player_number": 11,
+      "Pace": 91,
+      "Shooting": 87,
+      "Passing": 80,
+      "Dribbling": 88,
+      "Defending": 37,
+      "Physical": 75
     },
     {
       "id": 7,
@@ -89,7 +125,13 @@
       "nation_icon": "/assets/API/imgs/flags/belgium.png",
       "club_logo": "/assets/API/imgs/club/manchester_city.png",
       "age": 33,
-      "player_number": 17
+      "player_number": 17,
+      "Pace": 74,
+      "Shooting": 80,
+      "Passing": 95,
+      "Dribbling": 85,
+      "Defending": 63,
+      "Physical": 70
     },
     {
       "id": 8,
@@ -102,7 +144,13 @@
       "nation_icon": "/assets/API/imgs/flags/poland.png",
       "club_logo": "/assets/API/imgs/club/barcelona.png",
       "age": 36,
-      "player_number": 9
+      "player_number": 9,
+      "Pace": 74,
+      "Shooting": 94,
+      "Passing": 78,
+      "Dribbling": 80,
+      "Defending": 40,
+      "Physical": 85
     },
     {
       "id": 9,
@@ -115,7 +163,13 @@
       "nation_icon": "/assets/API/imgs/flags/norway.png",
       "club_logo": "/assets/API/imgs/club/manchester_city.png",
       "age": 24,
-      "player_number": 9
+      "player_number": 9,
+      "Pace": 87,
+      "Shooting": 92,
+      "Passing": 75,
+      "Dribbling": 77,
+      "Defending": 45,
+      "Physical": 90
     },
     {
       "id": 10,
@@ -128,8 +182,14 @@
       "nation_icon": "/assets/API/imgs/flags/senegal.png",
       "club_logo": "/assets/API/imgs/club/al_nassr.png",
       "age": 32,
-      "player_number": 10
-    },
+      "player_number": 10,
+      "Pace": 85,
+      "Shooting": 82,
+      "Passing": 80,
+      "Dribbling": 89,
+      "Defending": 40,
+      "Physical": 70
+    },    
     {
       "id": 11,
       "name": "Luka Modrić",

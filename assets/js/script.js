@@ -1,5 +1,5 @@
 "use strict";
-var _a, _b, _c, _d, _e;
+var _a, _b, _c, _d, _e, _f;
 const url = '/assets/API/players.json';
 let playersList = document.getElementById('players-list');
 let playersCount = 0;
@@ -9,6 +9,9 @@ let localStadiumClasses = [];
 let selectedPlayersPlaceholders = document.querySelectorAll('.selected-player');
 let currentPlayerPlaceholder = null;
 let currentPlayerCard = null;
+let modal = document.getElementById('modal-container');
+let inputs = modal.querySelectorAll('input, select');
+let modalModifyBtn = modal.querySelector('.modify-player');
 let formationSelect = document.getElementById('formation-select');
 // playersList.innerHTML = '';
 let localST = localStorage.getItem('stadium');
@@ -50,7 +53,7 @@ if (!localStorage.getItem('players')) {
                 addPlayerCard(player, false);
             }
         }
-        playersCount = data.players.length;
+        // playersCount = data.players.length;
         // LocalStorage
         localPlayersList = data.players;
         localStorage.setItem('players', JSON.stringify(localPlayersList));
@@ -68,7 +71,7 @@ else {
             addPlayerCard(player, false);
         }
     }
-    playersCount = localPlayersList.length;
+    // playersCount = localPlayersList.length;
 }
 selectedPlayersPlaceholders.forEach((item) => {
     item.addEventListener('click', showRelevantPlayers);
@@ -138,10 +141,125 @@ function addPlayerCard(player, hidden) {
         currentPlayerCard = null;
         resetCards();
     });
-    // (div.querySelector('.modify-btn') as HTMLElement).addEventListener('click', function (this: Element, e: MouseEvent) {
-    //     e.stopPropagation();
-    // });
+    div.querySelector('.modify-btn').addEventListener('click', function (e) {
+        e.stopPropagation();
+        modal.style.display = "flex";
+        modalModifyBtn.style.display = "block";
+        formFillPlayerData(+this.parentElement.dataset.id, this.parentElement);
+        modalModifyBtn.previousElementSibling.style.display = "none";
+        modal.querySelector('h2').textContent = "Modify Existing Player";
+    });
     playersList.append(div);
+}
+let modifyID = 0;
+let modifiedElement = null;
+function formFillPlayerData(id, element) {
+    let player = localPlayersList.filter(item => item.id == id)[0];
+    inputs[0].value = player.name;
+    inputs[1].value = player.age + "";
+    inputs[2].value = player.player_number + "";
+    inputs[3].value = player.Pace + "";
+    inputs[4].value = player.Shooting + "";
+    inputs[5].value = player.Passing + "";
+    inputs[6].value = player.Dribbling + "";
+    inputs[7].value = player.Defending + "";
+    inputs[8].value = player.Physical + "";
+    inputs[9].value = player.nationality.toLowerCase();
+    inputs[10].value = player.position[0];
+    inputs[11].value = player.league;
+    // player.
+    modifyID = id;
+    modifiedElement = element;
+}
+let modifyValidRegExp = [
+    /^[a-zA-Z][a-z A-Z]*$/,
+    /^[1-5][0-9]$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[a-z -_]+$/,
+    /^[A-Z]+$/,
+    /^[a-zA-Z 0-9]+$/,
+    /\.*$/,
+    /\.*$/,
+];
+(_a = modal.querySelector('.modify-player')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function () {
+    let errors = false;
+    for (let i = 0; i < inputs.length; i++) {
+        let itemHTML = inputs[i];
+        if (itemHTML.value.search(modifyValidRegExp[i]) >= 0) {
+            itemHTML.style.borderColor = "";
+        }
+        else {
+            itemHTML.style.borderColor = "red";
+            errors = true;
+        }
+    }
+    if (errors == true) {
+        return;
+    }
+    let i;
+    for (i = 0; i < localPlayersList.length; i++) {
+        if (localPlayersList[i].id == modifyID) {
+            break;
+        }
+    }
+    let data = {
+        id: modifyID,
+        name: inputs[0].value,
+        age: +inputs[1].value,
+        player_number: +inputs[2].value,
+        Pace: +inputs[3].value,
+        Shooting: +inputs[4].value,
+        Passing: +inputs[5].value,
+        Dribbling: +inputs[6].value,
+        Defending: +inputs[7].value,
+        Physical: +inputs[8].value,
+        overall_rating: Math.round((+inputs[3].value
+            + +inputs[4].value
+            + +inputs[5].value
+            + +inputs[6].value
+            + +inputs[7].value
+            + +inputs[8].value) / 6),
+        nationality: inputs[9].value,
+        nation_icon: `https://www.countryflags.com/wp-content/uploads/${inputs[9].value}-flag-png-xl.png`,
+        position: [inputs[10].value],
+        league: inputs[11].value,
+        club: "",
+        player_image: inputs[12].value != '' ? "/assets/API/imgs/players/" + inputs[12].value.replace("C:\\fakepath\\", '') : localPlayersList[i].player_image,
+        club_logo: inputs[13].value != '' ? "/assets/API/imgs/club/" + inputs[13].value.replace("C:\\fakepath\\", '') : localPlayersList[i].club_logo,
+    };
+    localPlayersList[i] = data;
+    modifyPlayer(modifiedElement, data);
+    modal.style.display = 'none';
+});
+function modifyPlayer(element, player) {
+    element.dataset.position = player.position[0];
+    element.innerHTML = `<div class="card-header">
+        <h3 class="player-position">${player.position[0]}</h3>
+        <div>
+            <img class="player-image" src="${player.player_image || `assets/API/imgs/players/${player.name}.png`}" alt="">
+        </div>
+        <div>
+            <b class="player-rating">${player.overall_rating}</b>
+        </div>
+    </div>
+    <h3 class="player-name">${player.name}</h3>
+    <div class="player-info">
+        <span>Age: ${player.age}</span>
+        <span>N.: ${player.player_number}</span>
+    </div>
+    <h4 class="player-ligue">${player.league}</h4>
+    <div class="player-assets">
+        <img src="${player.nation_icon}" alt="" class="player-flag">
+        <img src="${player.club_logo}" alt="" class="player-club">
+    </div>`;
+    createAlert("Modified Player", `The player "${player.name}" was modified`);
+    localStorage.setItem('players', JSON.stringify(localPlayersList));
 }
 function createAlert(alertTitle, alertDesc) {
     let alert = document.createElement('div');
@@ -350,7 +468,7 @@ function addOptions(element) {
     element.append(div);
 }
 let menu = document.getElementById('menu');
-(_a = menu === null || menu === void 0 ? void 0 : menu.firstElementChild) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function () {
+(_b = menu === null || menu === void 0 ? void 0 : menu.firstElementChild) === null || _b === void 0 ? void 0 : _b.addEventListener('click', function () {
     if (!menu.classList.contains('open')) {
         menu.classList.add('open');
         menu.classList.remove('closed', 'delayed');
@@ -369,10 +487,16 @@ let menu = document.getElementById('menu');
         menu.classList.add('closed');
     }
 });
-(_b = menu.querySelector('.pen-icon')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', function () {
+(_c = menu.querySelector('.pen-icon')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', function () {
+    inputs.forEach(item => {
+        item.value = "";
+    });
+    modalModifyBtn.style.display = "none";
+    modalModifyBtn.previousElementSibling.style.display = "block";
+    modal.querySelector('h2').textContent = "Add New Player";
     modal.style.display = "flex";
 });
-(_c = menu.querySelector('.formation-icon')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', function () {
+(_d = menu.querySelector('.formation-icon')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', function () {
     let options = document.querySelector('.formation-options');
     if (!options.classList.contains('open')) {
         options.classList.add('open');
@@ -403,8 +527,6 @@ function updateLocalStorage() {
 //-----------------------------------------
 // *** Modal: Add players
 //-----------------------------------------
-let modal = document.getElementById('modal-container');
-let inputs = modal.querySelectorAll('input, select');
 let validRegExp = [
     /^[a-zA-Z][a-z A-Z]*$/,
     /^[1-5][0-9]$/,
@@ -421,10 +543,10 @@ let validRegExp = [
     /\.(png|jpg|jpeg|webp)$/,
     /\.(png|jpg|jpeg|webp)$/,
 ];
-(_d = modal === null || modal === void 0 ? void 0 : modal.querySelector('.close-btn')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', function () {
+(_e = modal === null || modal === void 0 ? void 0 : modal.querySelector('.close-btn')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', function () {
     modal.style.display = 'none';
 });
-(_e = modal.querySelector('.add-player')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', function () {
+(_f = modal.querySelector('.add-player')) === null || _f === void 0 ? void 0 : _f.addEventListener('click', function () {
     let errors = false;
     for (let i = 0; i < inputs.length; i++) {
         let itemHTML = inputs[i];
@@ -441,10 +563,16 @@ let validRegExp = [
     }
     //C:\fakepath\green-player-background.png
     let data = {
-        id: ++playersCount,
+        id: localPlayersList[localPlayersList.length - 1].id + 1,
         name: inputs[0].value,
         age: +inputs[1].value,
         player_number: +inputs[2].value,
+        Pace: +inputs[3].value,
+        Shooting: +inputs[4].value,
+        Passing: +inputs[5].value,
+        Dribbling: +inputs[6].value,
+        Defending: +inputs[7].value,
+        Physical: +inputs[8].value,
         overall_rating: Math.round((+inputs[3].value
             + +inputs[4].value
             + +inputs[5].value
@@ -452,13 +580,16 @@ let validRegExp = [
             + +inputs[7].value
             + +inputs[8].value) / 6),
         nationality: inputs[9].value,
-        nation_icon: `https://www.countryflags.com/wp-content/uploads/${inputs[9].value}-flag-png-large.png`,
+        nation_icon: `https://www.countryflags.com/wp-content/uploads/${inputs[9].value}-flag-png-xl.png`,
         position: [inputs[10].value],
         league: inputs[11].value,
         club: "",
         player_image: "/assets/API/imgs/players/" + inputs[12].value.replace("C:\\fakepath\\", ''),
         club_logo: "/assets/API/imgs/club/" + inputs[13].value.replace("C:\\fakepath\\", ''),
     };
+    localPlayersList.push(data);
+    localStorage.setItem('players', JSON.stringify(localPlayersList));
+    createAlert('Added Player', `The player "${data.name}" was added`);
     addPlayerCard(data, false);
     modal.style.display = 'none';
 });

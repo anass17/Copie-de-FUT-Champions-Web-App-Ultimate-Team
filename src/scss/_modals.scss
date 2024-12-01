@@ -66,13 +66,17 @@
         padding: 20px 30px;
         border-top: 1px solid #CCC;
 
-        .add-player {
+        .add-player,
+        .modify-player {
             padding: 15px 15px;
             border-radius: 7px;
             background-color: dodgerblue;
             color: #FFF;
             font-weight: bold;
             letter-spacing: 1.15px;
+        }
+        .modify-player {
+            display: none;
         }
     }
 }

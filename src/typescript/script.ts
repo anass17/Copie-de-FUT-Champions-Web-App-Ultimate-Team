@@ -9,6 +9,10 @@ let selectedPlayersPlaceholders = document.querySelectorAll('.selected-player');
 let currentPlayerPlaceholder : Element | null = null;
 let currentPlayerCard : Element | null = null;
 
+let modal = document.getElementById('modal-container') as HTMLElement;
+let inputs = modal.querySelectorAll('input, select');
+let modalModifyBtn = modal.querySelector('.modify-player') as HTMLElement;
+
 let formationSelect = document.getElementById('formation-select') as HTMLSelectElement;
 
 interface PlayersData {
@@ -24,6 +28,12 @@ interface PlayersData {
     age: number,
     player_number: number,
     player_image?: string
+    Pace: number,
+    Shooting: number,
+    Passing: number,
+    Dribbling: number,
+    Defending: number,
+    Physical: number
 }
 
 interface Players {
@@ -75,7 +85,7 @@ if (!localStorage.getItem('players')) {
                 addPlayerCard(player, false);
             }
         }
-        playersCount = data.players.length;
+        // playersCount = data.players.length;
 
         // LocalStorage
 
@@ -94,7 +104,7 @@ if (!localStorage.getItem('players')) {
             addPlayerCard(player, false);
         }
     }
-    playersCount = localPlayersList.length;
+    // playersCount = localPlayersList.length;
 }
 
 selectedPlayersPlaceholders.forEach((item) => {
@@ -173,12 +183,143 @@ function addPlayerCard(player : PlayersData, hidden: boolean) {
         resetCards();
     });
 
-    // (div.querySelector('.modify-btn') as HTMLElement).addEventListener('click', function (this: Element, e: MouseEvent) {
-    //     e.stopPropagation();
-        
-    // });
+    (div.querySelector('.modify-btn') as HTMLElement).addEventListener('click', function (this: Element, e: MouseEvent) {
+        e.stopPropagation();
+        modal.style.display = "flex";
+        modalModifyBtn.style.display = "block";
+        formFillPlayerData(+((this.parentElement as HTMLElement).dataset.id as string), this.parentElement as HTMLElement);
+        (modalModifyBtn.previousElementSibling as HTMLElement).style.display = "none";
+        (modal.querySelector('h2') as HTMLElement).textContent = "Modify Existing Player";
+    });
 
     playersList.append(div);
+}
+
+let modifyID: number = 0;
+let modifiedElement : HTMLElement | null = null;
+
+function formFillPlayerData(id: number, element: HTMLElement) {
+    let player = localPlayersList.filter(item => item.id == id)[0];
+    
+    (inputs[0] as HTMLInputElement).value = player.name;
+    (inputs[1] as HTMLInputElement).value = player.age + "";
+    (inputs[2] as HTMLInputElement).value = player.player_number + "";
+    (inputs[3] as HTMLInputElement).value = player.Pace + "";
+    (inputs[4] as HTMLInputElement).value = player.Shooting + "";
+    (inputs[5] as HTMLInputElement).value = player.Passing + "";
+    (inputs[6] as HTMLInputElement).value = player.Dribbling + "";
+    (inputs[7] as HTMLInputElement).value = player.Defending + "";
+    (inputs[8] as HTMLInputElement).value = player.Physical + "";
+    (inputs[9] as HTMLInputElement).value = player.nationality.toLowerCase();
+    (inputs[10] as HTMLSelectElement).value = player.position[0];
+    (inputs[11] as HTMLInputElement).value = player.league;
+    // player.
+
+    modifyID = id;
+    modifiedElement = element;
+}
+
+let modifyValidRegExp = [
+    /^[a-zA-Z][a-z A-Z]*$/,
+    /^[1-5][0-9]$/, 
+    /^[1-9][0-9]?$/, 
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[1-9][0-9]?$/,
+    /^[a-z -_]+$/,
+    /^[A-Z]+$/,
+    /^[a-zA-Z 0-9]+$/,
+    /\.*$/,
+    /\.*$/,
+]
+
+modal.querySelector('.modify-player')?.addEventListener('click', function () {
+    let errors : boolean = false;
+    for (let i = 0; i < inputs.length; i++) {
+        let itemHTML = inputs[i] as HTMLInputElement;
+
+        if (itemHTML.value.search(modifyValidRegExp[i]) >= 0) {
+            itemHTML.style.borderColor = "";
+        } else {
+            itemHTML.style.borderColor = "red";
+            errors = true;
+        }
+    }
+
+    if (errors == true) {
+        return;
+    }
+
+    let i: number;
+
+    for (i = 0; i < localPlayersList.length; i++) {
+        if (localPlayersList[i].id == modifyID) {
+            break;
+        }
+    }
+
+    let data : PlayersData = {
+        id: modifyID,
+        name: (inputs[0] as HTMLInputElement).value,
+        age: +(inputs[1] as HTMLInputElement).value,
+        player_number: +(inputs[2] as HTMLInputElement).value,
+        Pace: +(inputs[3] as HTMLInputElement).value,
+        Shooting: +(inputs[4] as HTMLInputElement).value,
+        Passing: +(inputs[5] as HTMLInputElement).value,
+        Dribbling: +(inputs[6] as HTMLInputElement).value,
+        Defending: +(inputs[7] as HTMLInputElement).value,
+        Physical: +(inputs[8] as HTMLInputElement).value,
+        overall_rating: 
+            Math.round((+(inputs[3] as HTMLInputElement).value 
+            + +(inputs[4] as HTMLInputElement).value
+            + +(inputs[5] as HTMLInputElement).value
+            + +(inputs[6] as HTMLInputElement).value
+            + +(inputs[7] as HTMLInputElement).value
+            + +(inputs[8] as HTMLInputElement).value) / 6),
+        nationality: (inputs[9] as HTMLInputElement).value,
+        nation_icon: `https://www.countryflags.com/wp-content/uploads/${(inputs[9] as HTMLInputElement).value}-flag-png-xl.png`,
+        position: [(inputs[10] as HTMLInputElement).value],
+        league: (inputs[11] as HTMLInputElement).value,
+        club: "",
+        player_image: (inputs[12] as HTMLInputElement).value != '' ? "/assets/API/imgs/players/" + (inputs[12] as HTMLInputElement).value.replace("C:\\fakepath\\", '') : localPlayersList[i].player_image,
+        club_logo: (inputs[13] as HTMLInputElement).value != '' ? "/assets/API/imgs/club/" + (inputs[13] as HTMLInputElement).value.replace("C:\\fakepath\\", '') : localPlayersList[i].club_logo,
+    }
+
+    localPlayersList[i] = data;
+
+    modifyPlayer(modifiedElement as HTMLElement, data);
+
+    modal.style.display = 'none';
+});
+
+function modifyPlayer(element: HTMLElement, player: PlayersData) {
+    element.dataset.position = player.position[0];
+    element.innerHTML = `<div class="card-header">
+        <h3 class="player-position">${player.position[0]}</h3>
+        <div>
+            <img class="player-image" src="${player.player_image || `assets/API/imgs/players/${player.name}.png`}" alt="">
+        </div>
+        <div>
+            <b class="player-rating">${player.overall_rating}</b>
+        </div>
+    </div>
+    <h3 class="player-name">${player.name}</h3>
+    <div class="player-info">
+        <span>Age: ${player.age}</span>
+        <span>N.: ${player.player_number}</span>
+    </div>
+    <h4 class="player-ligue">${player.league}</h4>
+    <div class="player-assets">
+        <img src="${player.nation_icon}" alt="" class="player-flag">
+        <img src="${player.club_logo}" alt="" class="player-club">
+    </div>`;
+
+    createAlert("Modified Player", `The player "${player.name}" was modified`);
+
+    localStorage.setItem('players', JSON.stringify(localPlayersList));
 }
 
 function createAlert(alertTitle: string, alertDesc: string) {
@@ -443,6 +584,12 @@ menu?.firstElementChild?.addEventListener('click', function () {
 });
 
 menu.querySelector('.pen-icon')?.addEventListener('click', function () {
+    inputs.forEach(item => {
+        (item as HTMLInputElement).value = "";
+    });
+    modalModifyBtn.style.display = "none";
+    (modalModifyBtn.previousElementSibling as HTMLElement).style.display = "block";
+    (modal.querySelector('h2') as HTMLElement).textContent = "Add New Player";
     modal.style.display = "flex";
 });
 
@@ -480,8 +627,6 @@ function updateLocalStorage() {
 // *** Modal: Add players
 //-----------------------------------------
 
-let modal = document.getElementById('modal-container') as HTMLElement;
-let inputs = modal.querySelectorAll('input, select');
 let validRegExp = [
     /^[a-zA-Z][a-z A-Z]*$/,
     /^[1-5][0-9]$/, 
@@ -522,10 +667,16 @@ modal.querySelector('.add-player')?.addEventListener('click', function () {
     //C:\fakepath\green-player-background.png
 
     let data : PlayersData = {
-        id: ++playersCount,
+        id: localPlayersList[localPlayersList.length - 1].id + 1,
         name: (inputs[0] as HTMLInputElement).value,
         age: +(inputs[1] as HTMLInputElement).value,
         player_number: +(inputs[2] as HTMLInputElement).value,
+        Pace: +(inputs[3] as HTMLInputElement).value,
+        Shooting: +(inputs[4] as HTMLInputElement).value,
+        Passing: +(inputs[5] as HTMLInputElement).value,
+        Dribbling: +(inputs[6] as HTMLInputElement).value,
+        Defending: +(inputs[7] as HTMLInputElement).value,
+        Physical: +(inputs[8] as HTMLInputElement).value,
         overall_rating: 
             Math.round((+(inputs[3] as HTMLInputElement).value 
             + +(inputs[4] as HTMLInputElement).value
@@ -534,13 +685,18 @@ modal.querySelector('.add-player')?.addEventListener('click', function () {
             + +(inputs[7] as HTMLInputElement).value
             + +(inputs[8] as HTMLInputElement).value) / 6),
         nationality: (inputs[9] as HTMLInputElement).value,
-        nation_icon: `https://www.countryflags.com/wp-content/uploads/${(inputs[9] as HTMLInputElement).value}-flag-png-large.png`,
+        nation_icon: `https://www.countryflags.com/wp-content/uploads/${(inputs[9] as HTMLInputElement).value}-flag-png-xl.png`,
         position: [(inputs[10] as HTMLInputElement).value],
         league: (inputs[11] as HTMLInputElement).value,
         club: "",
         player_image: "/assets/API/imgs/players/" + (inputs[12] as HTMLInputElement).value.replace("C:\\fakepath\\", ''),
         club_logo: "/assets/API/imgs/club/" + (inputs[13] as HTMLInputElement).value.replace("C:\\fakepath\\", ''),
     }
+
+    localPlayersList.push(data);
+    localStorage.setItem('players', JSON.stringify(localPlayersList));
+
+    createAlert('Added Player', `The player "${data.name}" was added`);
 
     addPlayerCard(data, false);
     modal.style.display = 'none';

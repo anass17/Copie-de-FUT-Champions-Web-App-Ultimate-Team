@@ -545,13 +545,17 @@ h1 {
   padding: 20px 30px;
   border-top: 1px solid #CCC;
 }
-.modal .modal-footer .add-player {
+.modal .modal-footer .add-player,
+.modal .modal-footer .modify-player {
   padding: 15px 15px;
   border-radius: 7px;
   background-color: dodgerblue;
   color: #FFF;
   font-weight: bold;
   letter-spacing: 1.15px;
+}
+.modal .modal-footer .modify-player {
+  display: none;
 }
 
 .stadium .selected-player-container.GK {
