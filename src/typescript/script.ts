@@ -5,6 +5,7 @@ let switchCards = false;
 let localStadium : number[] = [];
 let localStadiumClasses : string[] = [];
 
+
 let selectedPlayersPlaceholders = document.querySelectorAll('.selected-player');
 let currentPlayerPlaceholder : Element | null = null;
 let currentPlayerCard : Element | null = null;
