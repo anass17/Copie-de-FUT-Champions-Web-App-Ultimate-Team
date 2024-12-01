@@ -1,6 +1,6 @@
 "use strict";
 var _a, _b, _c, _d, _e, _f, _g;
-const url = 'assets/API/players.json';
+const url = '/assets/API/players.json';
 let playersList = document.getElementById('players-list');
 let playersCount = 0;
 let switchCards = false;
@@ -60,9 +60,10 @@ if (!localStorage.getItem('players')) {
         .then(response => response.json())
         .then(fetchSuccess)
         .catch(function () {
-        fetch('Copie-de-FUT-Champions-Web-App-Ultimate-Team' + url) // BackUp for GitHub Project
+        fetch('/Copie-de-FUT-Champions-Web-App-Ultimate-Team' + url) // BackUp for GitHub Project
             .then(response => response.json())
-            .then(fetchSuccess).catch(error => console.log(error));
+            .then(fetchSuccess)
+            .catch(error => console.log(error));
     });
 }
 else {
