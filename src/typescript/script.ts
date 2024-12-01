@@ -1,4 +1,4 @@
-const url : string = '/assets/API/players.json';
+const url : string = 'https://raw.githubusercontent.com/anass17/JSON/refs/heads/main/Players/players.json';
 let playersList = document.getElementById('players-list') as HTMLDivElement;
 let playersCount = 0;
 let switchCards = false;
@@ -94,12 +94,7 @@ if (!localStorage.getItem('players')) {
     fetch(url)
     .then(response => response.json())
     .then(fetchSuccess)
-	.catch(function () {
-        fetch('/Copie-de-FUT-Champions-Web-App-Ultimate-Team' + url)     // BackUp for GitHub Project
-        .then(response => response.json())
-        .then(fetchSuccess)
-        .catch(error => console.log(error))
-    })
+	.catch(error => console.log(error))
 } else {
     localPlayersList = JSON.parse(localStorage.getItem('players') as string);
 
