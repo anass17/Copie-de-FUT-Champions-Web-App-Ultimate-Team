@@ -509,6 +509,21 @@ searchInput?.addEventListener('keyup', function (this: HTMLInputElement) {
 // *** Add Options
 //---------------------------------
 
+function removePlayerFromStadium(element: HTMLElement) {
+    if (!element.querySelector('.role')) {
+        let playerName = element.querySelector('.player-name')?.textContent;
+    
+        [...playersList.querySelectorAll(`.player-name`)].filter(name => name.textContent == playerName)[0].closest('.player-card')?.classList.remove('already-selected')
+    }
+    
+    element.innerHTML = 
+        `<b class="role">${element.getAttribute('data-position')}</b>
+        <span class="plus">+</span>`;
+    element.setAttribute('data-available', "");
+    element.setAttribute('data-id', "");
+    element.classList.remove('player-card', 'active');
+}
+
 function addOptions(element: HTMLElement) {
     let div = document.createElement('div');
     div.className = "card-options";
@@ -520,16 +535,9 @@ function addOptions(element: HTMLElement) {
 
     deleteButton.addEventListener('click', function (e) {
         e.stopPropagation();
-        let playerName = element.querySelector('.player-name')?.textContent;
-
-        [...playersList.querySelectorAll(`.player-name`)].filter(name => name.textContent == playerName)[0].closest('.player-card')?.classList.remove('already-selected')
         
-        element.innerHTML = 
-            `<b class="role">${element.getAttribute('data-position')}</b>
-            <span class="plus">+</span>`;
-        element.setAttribute('data-available', "");
-        element.setAttribute('data-id', "");
-        element.classList.remove('player-card', 'active');
+        removePlayerFromStadium(element);
+
         currentPlayerPlaceholder = null;
         updateLocalStorage();
         showAllPlayers();
@@ -606,6 +614,19 @@ menu.querySelector('.formation-icon')?.addEventListener('click', function (this:
         this.style.backgroundColor = "";
         (this.firstElementChild as HTMLElement).style.fill = "";
     }
+});
+
+menu.querySelector('.trush-icon')?.addEventListener('click', function () {
+
+    selectedPlayersPlaceholders.forEach(item => {
+        removePlayerFromStadium(item as HTMLElement);
+    });
+
+    createAlert('Update Saved', "The stadium has been successfully cleared")
+
+    currentPlayerPlaceholder = null;
+    updateLocalStorage();
+    showAllPlayers();
 });
 
 //-----------------------------------------
@@ -711,7 +732,7 @@ inputs.forEach((item, index) => {
             this.style.borderColor = "red";
         }
     })
-})
+});
 
 //-------------------------------
 // *** Reset Cards

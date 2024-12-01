@@ -366,7 +366,7 @@ h1 {
   transform: rotate(-40deg);
 }
 
-.menu button.random-icon {
+.menu button.trush-icon {
   height: 40px;
   width: 40px;
   background-color: rgba(255, 255, 255, 0.2);
@@ -379,18 +379,18 @@ h1 {
   visibility: hidden;
 }
 
-.menu.closed button.random-icon {
+.menu.closed button.trush-icon {
   animation: rotate-menu-option-2-reverse 0.5s 0.2s ease-in-out backwards;
 }
 
-.menu.open button.random-icon {
+.menu.open button.trush-icon {
   visibility: visible;
   opacity: 1;
   transform: rotate(100deg);
   animation: rotate-menu-option-2 0.5s ease-in-out backwards;
 }
 
-.menu button.random-icon svg {
+.menu button.trush-icon svg {
   transform: rotate(-100deg);
 }
 
@@ -462,22 +462,6 @@ h1 {
   margin-bottom: 10px;
 }
 
-@keyframes showAlert {
-  0% {
-    transform: translateX(-50%) translateY(-150%);
-  }
-  100% {
-    transform: translateX(-50%) translateY(0);
-  }
-}
-@keyframes showAlertReverse {
-  0% {
-    transform: translateX(-50%) translateY(0);
-  }
-  100% {
-    transform: translateX(-50%) translateY(-150%);
-  }
-}
 .modal-container {
   backdrop-filter: blur(2px);
   background-color: rgba(0, 0, 0, 0.6);
@@ -821,6 +805,22 @@ h1 {
     opacity: 0;
     width: 30px;
     height: 30px;
+  }
+}
+@keyframes showAlert {
+  0% {
+    transform: translateX(-50%) translateY(-150%);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+@keyframes showAlertReverse {
+  0% {
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-150%);
   }
 }
 

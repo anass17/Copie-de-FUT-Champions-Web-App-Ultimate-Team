@@ -1,5 +1,5 @@
 "use strict";
-var _a, _b, _c, _d, _e, _f;
+var _a, _b, _c, _d, _e, _f, _g;
 const url = '/assets/API/players.json';
 let playersList = document.getElementById('players-list');
 let playersCount = 0;
@@ -423,6 +423,19 @@ searchInput === null || searchInput === void 0 ? void 0 : searchInput.addEventLi
 //---------------------------------
 // *** Add Options
 //---------------------------------
+function removePlayerFromStadium(element) {
+    var _a, _b;
+    if (!element.querySelector('.role')) {
+        let playerName = (_a = element.querySelector('.player-name')) === null || _a === void 0 ? void 0 : _a.textContent;
+        (_b = [...playersList.querySelectorAll(`.player-name`)].filter(name => name.textContent == playerName)[0].closest('.player-card')) === null || _b === void 0 ? void 0 : _b.classList.remove('already-selected');
+    }
+    element.innerHTML =
+        `<b class="role">${element.getAttribute('data-position')}</b>
+        <span class="plus">+</span>`;
+    element.setAttribute('data-available', "");
+    element.setAttribute('data-id', "");
+    element.classList.remove('player-card', 'active');
+}
 function addOptions(element) {
     let div = document.createElement('div');
     div.className = "card-options";
@@ -431,16 +444,8 @@ function addOptions(element) {
     deleteButton.textContent = "X";
     div.append(deleteButton);
     deleteButton.addEventListener('click', function (e) {
-        var _a, _b;
         e.stopPropagation();
-        let playerName = (_a = element.querySelector('.player-name')) === null || _a === void 0 ? void 0 : _a.textContent;
-        (_b = [...playersList.querySelectorAll(`.player-name`)].filter(name => name.textContent == playerName)[0].closest('.player-card')) === null || _b === void 0 ? void 0 : _b.classList.remove('already-selected');
-        element.innerHTML =
-            `<b class="role">${element.getAttribute('data-position')}</b>
-            <span class="plus">+</span>`;
-        element.setAttribute('data-available', "");
-        element.setAttribute('data-id', "");
-        element.classList.remove('player-card', 'active');
+        removePlayerFromStadium(element);
         currentPlayerPlaceholder = null;
         updateLocalStorage();
         showAllPlayers();
@@ -511,6 +516,15 @@ let menu = document.getElementById('menu');
         this.firstElementChild.style.fill = "";
     }
 });
+(_e = menu.querySelector('.trush-icon')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', function () {
+    selectedPlayersPlaceholders.forEach(item => {
+        removePlayerFromStadium(item);
+    });
+    createAlert('Update Saved', "The stadium has been successfully cleared");
+    currentPlayerPlaceholder = null;
+    updateLocalStorage();
+    showAllPlayers();
+});
 //-----------------------------------------
 // *** Update localStorage
 //-----------------------------------------
@@ -543,10 +557,10 @@ let validRegExp = [
     /\.(png|jpg|jpeg|webp)$/,
     /\.(png|jpg|jpeg|webp)$/,
 ];
-(_e = modal === null || modal === void 0 ? void 0 : modal.querySelector('.close-btn')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', function () {
+(_f = modal === null || modal === void 0 ? void 0 : modal.querySelector('.close-btn')) === null || _f === void 0 ? void 0 : _f.addEventListener('click', function () {
     modal.style.display = 'none';
 });
-(_f = modal.querySelector('.add-player')) === null || _f === void 0 ? void 0 : _f.addEventListener('click', function () {
+(_g = modal.querySelector('.add-player')) === null || _g === void 0 ? void 0 : _g.addEventListener('click', function () {
     let errors = false;
     for (let i = 0; i < inputs.length; i++) {
         let itemHTML = inputs[i];
