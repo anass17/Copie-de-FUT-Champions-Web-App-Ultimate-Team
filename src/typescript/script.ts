@@ -774,3 +774,16 @@ formationSelect.addEventListener('change', function () {
     updateLocalStorage();
     
 });
+
+
+
+
+// modal.querySelector('#position')?.addEventListener('change', function (this: HTMLElement) {
+//     if (this.value == "GK") {
+//         document.querySelector('.stat2-container')?.computedStyleMap.display = "block";
+//         document.querySelector('.stat1-container')?.computedStyleMap.display = "";
+//     } else {
+//         document.querySelector('.stat1-container')?.computedStyleMap.display = "block";
+//     }
+    
+// });
