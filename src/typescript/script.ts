@@ -1,4 +1,5 @@
 const url : string = 'https://raw.githubusercontent.com/anass17/JSON/refs/heads/main/Players/players.json';
+
 let playersList = document.getElementById('players-list') as HTMLDivElement;
 let playersCount = 0;
 let switchCards = false;
@@ -41,7 +42,7 @@ interface Players {
     players: PlayersData[];
 }
 
-// playersList.innerHTML = '';
+playersList.innerHTML = '';
 
 let localST = localStorage.getItem('stadium');
 
@@ -121,7 +122,7 @@ function updateContent(element: Element, player: PlayersData) {
     element.innerHTML = `<div class="card-header">
         <h3 class="player-position">${player.position[0]}</h3>
         <div>
-            <img class="player-image" src="${player.player_image || `assets/API/imgs/players/${player.name}.png`}" alt="">
+            <img class="player-image" src="${player.player_image}" alt="">
         </div>
         <div>
             <b class="player-rating">${player.overall_rating}</b>
@@ -152,11 +153,10 @@ function addPlayerCard(player : PlayersData, hidden: boolean) {
     div.dataset.position = player.position.join('-');
     div.addEventListener('click', addPlayerToStadium);
 
-
     div.innerHTML = `<div class="card-header">
         <h3 class="player-position">${player.position[0]}</h3>
         <div>
-            <img class="player-image" src="${player.player_image || `assets/API/imgs/players/${player.name}.png`}" alt="">
+            <img class="player-image" src="${player.player_image}" alt="">
         </div>
         <div>
             <b class="player-rating">${player.overall_rating}</b>
@@ -264,6 +264,31 @@ modal.querySelector('.modify-player')?.addEventListener('click', function () {
         }
     }
 
+    const file = ((inputs[12] as HTMLInputElement).files as FileList)[0];
+    const file2 = ((inputs[13] as HTMLInputElement).files as FileList)[0];
+    
+    if (file || file2) {
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                updateArrData(reader, null, i);
+            };
+            reader.readAsDataURL(file);
+        }
+        if (file2) {
+            const reader2 = new FileReader();
+            reader2.onload = function () {
+                updateArrData(null, reader2, i);
+            };
+            reader2.readAsDataURL(file2);
+        } 
+    } else {
+        updateArrData(null, null, i);
+    }
+});
+
+function updateArrData(reader: any, reader2: any, i: number) {
+
     let data : PlayersData = {
         id: modifyID,
         name: (inputs[0] as HTMLInputElement).value,
@@ -287,8 +312,8 @@ modal.querySelector('.modify-player')?.addEventListener('click', function () {
         position: [(inputs[10] as HTMLInputElement).value],
         league: (inputs[11] as HTMLInputElement).value,
         club: "",
-        player_image: (inputs[12] as HTMLInputElement).value != '' ? "/assets/API/imgs/players/" + (inputs[12] as HTMLInputElement).value.replace("C:\\fakepath\\", '') : localPlayersList[i].player_image,
-        club_logo: (inputs[13] as HTMLInputElement).value != '' ? "/assets/API/imgs/club/" + (inputs[13] as HTMLInputElement).value.replace("C:\\fakepath\\", '') : localPlayersList[i].club_logo,
+        player_image: reader?.result || localPlayersList[i].player_image,
+        club_logo: reader2?.result || localPlayersList[i].club_logo,
     }
 
     localPlayersList[i] = data;
@@ -296,14 +321,14 @@ modal.querySelector('.modify-player')?.addEventListener('click', function () {
     modifyPlayer(modifiedElement as HTMLElement, data);
 
     modal.style.display = 'none';
-});
+}
 
 function modifyPlayer(element: HTMLElement, player: PlayersData) {
     element.dataset.position = player.position[0];
     element.innerHTML = `<div class="card-header">
         <h3 class="player-position">${player.position[0]}</h3>
         <div>
-            <img class="player-image" src="${player.player_image || `assets/API/imgs/players/${player.name}.png`}" alt="">
+            <img class="player-image" src="${player.player_image}" alt="">
         </div>
         <div>
             <b class="player-rating">${player.overall_rating}</b>
@@ -318,7 +343,30 @@ function modifyPlayer(element: HTMLElement, player: PlayersData) {
     <div class="player-assets">
         <img src="${player.nation_icon}" alt="" class="player-flag">
         <img src="${player.club_logo}" alt="" class="player-club">
-    </div>`;
+    </div>
+    <button class="delete-btn" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="15" hidden="15" fill="red"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M170.5 51.6L151.5 80l145 0-19-28.4c-1.5-2.2-4-3.6-6.7-3.6l-93.7 0c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80 368 80l48 0 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-8 0 0 304c0 44.2-35.8 80-80 80l-224 0c-44.2 0-80-35.8-80-80l0-304-8 0c-13.3 0-24-10.7-24-24S10.7 80 24 80l8 0 48 0 13.8 0 36.7-55.1C140.9 9.4 158.4 0 177.1 0l93.7 0c18.7 0 36.2 9.4 46.6 24.9zM80 128l0 304c0 17.7 14.3 32 32 32l224 0c17.7 0 32-14.3 32-32l0-304L80 128zm80 64l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16z"/></svg></button>
+    <button class="modify-btn" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="15" hidden="15" fill="#555"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1 0 32c0 8.8 7.2 16 16 16l32 0zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg></button>
+    `;
+
+    (element.querySelector('.delete-btn') as HTMLElement).addEventListener('click', function (this: Element, e: MouseEvent) {
+        e.stopPropagation();
+        let playerId = +(this.parentElement?.dataset.id as string);
+        let playerName = this.parentElement?.querySelector('.player-name')?.textContent;
+        createAlert("Player Deleted", `The player "${playerName}" was deleted`);
+        updatePlayerLocalStorage(playerId);
+        (this.parentElement as HTMLElement).remove();
+        currentPlayerCard = null;
+        resetCards();
+    });
+
+    (element.querySelector('.modify-btn') as HTMLElement).addEventListener('click', function (this: Element, e: MouseEvent) {
+        e.stopPropagation();
+        modal.style.display = "flex";
+        modalModifyBtn.style.display = "block";
+        formFillPlayerData(+((this.parentElement as HTMLElement).dataset.id as string), this.parentElement as HTMLElement);
+        (modalModifyBtn.previousElementSibling as HTMLElement).style.display = "none";
+        (modal.querySelector('h2') as HTMLElement).textContent = "Modify Existing Player";
+    });
 
     createAlert("Modified Player", `The player "${player.name}" was modified`);
 
@@ -688,42 +736,56 @@ modal.querySelector('.add-player')?.addEventListener('click', function () {
     if (errors == true) {
         return;
     }
-    //C:\fakepath\green-player-background.png
 
-    let data : PlayersData = {
-        id: localPlayersList[localPlayersList.length - 1].id + 1,
-        name: (inputs[0] as HTMLInputElement).value,
-        age: +(inputs[1] as HTMLInputElement).value,
-        player_number: +(inputs[2] as HTMLInputElement).value,
-        Pace: +(inputs[3] as HTMLInputElement).value,
-        Shooting: +(inputs[4] as HTMLInputElement).value,
-        Passing: +(inputs[5] as HTMLInputElement).value,
-        Dribbling: +(inputs[6] as HTMLInputElement).value,
-        Defending: +(inputs[7] as HTMLInputElement).value,
-        Physical: +(inputs[8] as HTMLInputElement).value,
-        overall_rating: 
-            Math.round((+(inputs[3] as HTMLInputElement).value 
-            + +(inputs[4] as HTMLInputElement).value
-            + +(inputs[5] as HTMLInputElement).value
-            + +(inputs[6] as HTMLInputElement).value
-            + +(inputs[7] as HTMLInputElement).value
-            + +(inputs[8] as HTMLInputElement).value) / 6),
-        nationality: (inputs[9] as HTMLInputElement).value,
-        nation_icon: `https://www.countryflags.com/wp-content/uploads/${(inputs[9] as HTMLInputElement).value}-flag-png-xl.png`,
-        position: [(inputs[10] as HTMLInputElement).value],
-        league: (inputs[11] as HTMLInputElement).value,
-        club: "",
-        player_image: "/assets/API/imgs/players/" + (inputs[12] as HTMLInputElement).value.replace("C:\\fakepath\\", ''),
-        club_logo: "/assets/API/imgs/club/" + (inputs[13] as HTMLInputElement).value.replace("C:\\fakepath\\", ''),
+    const file = ((inputs[12] as HTMLInputElement).files as FileList)[0];
+    const file2 = ((inputs[13] as HTMLInputElement).files as FileList)[0];
+
+    if (file && file2) {
+        const reader = new FileReader();
+        const reader2 = new FileReader();
+
+        reader2.onload = function() {
+
+            let data : PlayersData = {
+                id: localPlayersList[localPlayersList.length - 1].id + 1,
+                name: (inputs[0] as HTMLInputElement).value,
+                age: +(inputs[1] as HTMLInputElement).value,
+                player_number: +(inputs[2] as HTMLInputElement).value,
+                Pace: +(inputs[3] as HTMLInputElement).value,
+                Shooting: +(inputs[4] as HTMLInputElement).value,
+                Passing: +(inputs[5] as HTMLInputElement).value,
+                Dribbling: +(inputs[6] as HTMLInputElement).value,
+                Defending: +(inputs[7] as HTMLInputElement).value,
+                Physical: +(inputs[8] as HTMLInputElement).value,
+                overall_rating: 
+                    Math.round((+(inputs[3] as HTMLInputElement).value 
+                    + +(inputs[4] as HTMLInputElement).value
+                    + +(inputs[5] as HTMLInputElement).value
+                    + +(inputs[6] as HTMLInputElement).value
+                    + +(inputs[7] as HTMLInputElement).value
+                    + +(inputs[8] as HTMLInputElement).value) / 6),
+                nationality: (inputs[9] as HTMLInputElement).value,
+                nation_icon: `https://www.countryflags.com/wp-content/uploads/${(inputs[9] as HTMLInputElement).value}-flag-png-xl.png`,
+                position: [(inputs[10] as HTMLInputElement).value],
+                league: (inputs[11] as HTMLInputElement).value,
+                club: "",
+                player_image: reader.result as string,
+                club_logo: reader2.result as string,
+            }
+        
+            localPlayersList.push(data);
+            localStorage.setItem('players', JSON.stringify(localPlayersList));
+        
+            createAlert('Added Player', `The player "${data.name}" was added`);
+        
+            addPlayerCard(data, false);
+            modal.style.display = 'none';
+        };
+
+        reader.readAsDataURL(file);
+        reader2.readAsDataURL(file2);
     }
 
-    localPlayersList.push(data);
-    localStorage.setItem('players', JSON.stringify(localPlayersList));
-
-    createAlert('Added Player', `The player "${data.name}" was added`);
-
-    addPlayerCard(data, false);
-    modal.style.display = 'none';
 });
 
 inputs.forEach((item, index) => {
