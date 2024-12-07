@@ -57,18 +57,18 @@ Concevoir une application web de gestion d'équipe Ultimate Team pour EA FC 25, 
 Clonez le project
 
 ```bash
-  git clone https://github.com/anass17/Copie-de-FUT-Champions-Web-App-Ultimate-Team
+  git clone https://github.com/anass17/FUT-Champions-Web-App-Ultimate-Team
 ```
 
 Accéder au Dossier
 
 ```bash
-  cd Copie-de-FUT-Champions-Web-App-Ultimate-Team
+  cd FUT-Champions-Web-App-Ultimate-Team
 ```
 
 ### DEMO 🔗
 
-- [FUT CHAMPIONS](https://anass17.github.io/Copie-de-FUT-Champions-Web-App-Ultimate-Team/)
+- [FUT CHAMPIONS](https://anass17.github.io/FUT-Champions-Web-App-Ultimate-Team/)
 
 --------------------------------------------------------------------------
 
